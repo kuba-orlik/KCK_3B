@@ -1,6 +1,6 @@
 {{grid.offset}}
-<div class='grid_container' style='width: {{grid.viewport_size.width*grid.square_size}}px; height:{{grid.viewport_size.height*grid.square_size}}px; border: 8px solid black; -webkit-perspective:500px; -webkit-filter:sepia(0.6)'>
-	<div class='skew' style='-webkit-transform:rotateX(45deg); -webkit-transform-style:preserve-3d'>
+<div class='grid_container' style='width: {{grid.viewport_size.width*grid.square_size}}px; height:{{grid.viewport_size.height*grid.square_size}}px; border: 8px solid black; -webkit-perspective:500px; -webkit-filter:sepia(0.75)'>
+	<div class='skew' style='-webkit-transform:rotateX(45deg); -webkit-transform-style:preserve-3d;'>
 		<div style='-webkit-transition:all {{grid.animation_speed}}ms; -webkit-transform: translateX({{(-1)*grid.offset.x*grid.square_size}}px) translateY({{grid.offset.y*grid.square_size}}px); -webkit-transition-timing-function:{{grid.anim_ease}}; -webkit-transform-style:preserve-3d' >
 			<div ng-repeat='row in grid.squares' style='-webkit-transform-style:preserve-3d'>
 				<div ng-repeat='square in row | filter:{visible:true}	' class='grid_square fade-animation' ng-show='square.x!=undefined' style='position:absolute; left: {{(square.x-1)*grid.square_size}}px; top: {{(square.y-1)*grid.square_size}}px; -webkit-transform-style:preserve-3d' >
