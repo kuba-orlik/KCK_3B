@@ -15,14 +15,13 @@
 			var scene = null;
 			var camera = null;
 			var mesh = null;
-			
-			var postprocessing = { enabled  : true };
 
 			$(document).ready(
 				function() {
 					var container = document.getElementById("container");
 					var app = new MapApp();
 					app.init({ container: container });
+					app.renderer.sortObjects = true;
 					app.run();
 				}
 			);
