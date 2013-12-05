@@ -1,9 +1,13 @@
+var map_size = 80;
+
+var MapModel = {};
+
 var types_amount = 2;
 var floorMap = [];
 
-for(var i=1; i<=100; i++){
+for(var i=1; i<=map_size; i++){
 	floorMap[i]=[];
-	for(var j=1; j<=100; j++){
+	for(var j=1; j<=map_size; j++){
 		var ran = Math.ceil(Math.random()*types_amount);
 		switch(ran){
 			case 1:
@@ -15,3 +19,5 @@ for(var i=1; i<=100; i++){
 		}
 	}
 }
+
+MapModel.floorMap = floorMap;

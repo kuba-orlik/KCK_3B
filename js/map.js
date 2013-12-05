@@ -1,6 +1,7 @@
 
 
 
+
 block_size=100;
 
 
@@ -127,10 +128,10 @@ MapObject.prototype = new Sim.Object();
 MapObject.prototype.init = function(x, y, type){
     switch(type){
         case "tree":
-            var textureURL = "../tiles/samodrzewo.png";
+            var textureURL = "tiles/samodrzewo.png";
             break;
         case "water":
-            var textureURL = "../tiles/samawoda.png";
+            var textureURL = "tiles/samawoda.png";
             break;
             
     }

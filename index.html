@@ -1,21 +1,37 @@
 <html>
 	<head>
-		<meta charset='UTF-8'/>
-		<title>
-			Farma Memów
-		</title>
-		<link rel='stylesheet' href='css/style.css'>
-		<script src='js/lib/angular.min.js'></script>
-		<script src='js/lib/ng-route.js'></script>
-		<script src='js/lib/ng-animate.js'></script>
-		<script src='js/mvc/modules.js'></script>
-		<script src='js/mvc/controllers.js'></script>
-		<script src='js/mvc/services.js'></script>
-		<script src='js/mvc/directives.js'></script>
-	</head>
-	<body ng-app='app'>
-		<div ng-view>
+		<title>WebGL</title>
+		<script src='js/libs/jquery.js'></script>
+		<script src='js/libs/jquery.mousewheel.js'></script>
+		<script src='js/libs/Three.js'></script>
+		<script src='js/libs/BokehShader.js'></script>
+		<script src='js/libs/RequestAnimationFrame.js'></script>
+		<script src='js/libs/sim/sim.js'></script>
+		<script src='js/floorMap.js'></script>
+		<script src='js/objectMap.js'></script>
+		<script src='js/map.js'></script>
+		<script>
+			var renderer = null;
+			var scene = null;
+			var camera = null;
+			var mesh = null;
 
-		</div>
+			$(document).ready(
+				function() {
+					var container = document.getElementById("container");
+					var app = new MapApp();
+					app.init({ container: container });
+					app.renderer.sortObjects = true;
+					app.run();
+				}
+			);
+
+		</script>
+	</head>
+	<body>
+	<div id='container' style="width:720; height:480px">
+
+	</div>
+
 	</body>
 </html>
