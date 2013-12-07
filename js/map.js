@@ -1,8 +1,9 @@
 
+var tree_offset = 0.7;
 
 
 
-block_size=100;
+block_size=1;
 
 
 // Constructor
@@ -41,14 +42,21 @@ MapApp.prototype.init = function(param)
     sun.init();
     this.addObject(sun);
 
-    this.camera.position.x = 3*block_size;
-    this.camera.position.y = 3*block_size;
-    this.camera.position.z=5*block_size;
-    this.camera.rotation.x = Math.round(45* 100* Math.PI/180)/100;
+    this.camera.position.x = 15*block_size;
+    this.camera.position.y = 15*block_size;
+    this.camera.position.z=30*block_size;
+    this.camera.rotation.x = Math.round(45 * 100* Math.PI/180)/100;
+
+    console.log(this.camera.lookAt);
 
     this.selfUpdate = function(){
+        //this.camera.position = CameraModel.position;
+        //this.camera.lookAt(new THREE.Vector3(CameraModel.position.x, CameraModel.position.y, 0));
         this.camera.position.x += 0.225 * block_size/10;
         this.camera.position.y += 0.275 * block_size/10;
+        this.camera.position.x = CameraModel.position.x;
+        this.camera.position.y = CameraModel.position.y-4;
+        this.camera.position.z = CameraModel.position.z;
     }
 
 }
@@ -68,10 +76,10 @@ Square.prototype.init = function(x, y){
     var reflectivity = 0;    
     switch(type){
         case "grass":
-            var earthmap = "http://dl.dropboxusercontent.com/u/1142760/static/html/webgl/tiles/samatrawa.png";
+            var earthmap = "tiles/samatrawa.png";
             break;
         case "water":
-            var earthmap = "http://dl.dropboxusercontent.com/u/1142760/static/html/webgl/tiles/samawoda.png";
+            var earthmap = "tiles/samawoda.png";
             reflectivity = 1;
             break;
             
@@ -111,13 +119,14 @@ Sun.prototype = new Sim.Object();
 Sun.prototype.init = function()
 {
     // Create a point light to show off the earth - set the light out back and to left a bit
-    var light = new THREE.DirectionalLight( 0xC5BC98, 2);
+    var light = new THREE.DirectionalLight( 0xa8813b, 2);
     light.position.set(-10, 0, 20);
     
+
+
     // Tell the framework about our object
     this.setObject3D(light);    
 }
-
 
 MapObject = function(){
     Sim.Object.call(this);
@@ -128,7 +137,12 @@ MapObject.prototype = new Sim.Object();
 MapObject.prototype.init = function(x, y, type){
     switch(type){
         case "tree":
-            var textureURL = "tiles/samodrzewo.png";
+            var textureURL = "tiles/samodrzewo.gif";
+            break;
+        case "luigi":
+            //alert('luigi');
+            //console.log('luigi')
+            var textureURL = "tiles/luigi.png";
             break;
         case "water":
             var textureURL = "tiles/samawoda.png";
@@ -144,7 +158,7 @@ MapObject.prototype.init = function(x, y, type){
     var mesh = new THREE.Mesh( geometry, material ); 
 
     mesh.position.x=x*block_size;
-    mesh.position.y=y*block_size;
+    mesh.position.y=(y + 0.7)*block_size;
     mesh.translateZ(1*block_size);
 
     mesh.rotation.x = Math.round(45 * 100 * Math.PI /180)/100;
@@ -155,4 +169,8 @@ MapObject.prototype.init = function(x, y, type){
     //console.log(mesh.rotation.x);
 
     this.setObject3D(mesh); 
+}
+
+MapObject.prototype.update = function(){
+    this.object3D.position.z = tree_offset;
 }
