@@ -1,5 +1,5 @@
 
-var tree_offset = 0.7;
+var tree_offset = 0.65;
 
 
 
@@ -47,18 +47,21 @@ MapApp.prototype.init = function(param)
     this.camera.position.z=30*block_size;
     this.camera.rotation.x = Math.round(45 * 100* Math.PI/180)/100;
 
-    console.log(this.camera.lookAt);
+    //console.log(this.camera.lookAt);
 
-    this.selfUpdate = function(){
-        //this.camera.position = CameraModel.position;
-        //this.camera.lookAt(new THREE.Vector3(CameraModel.position.x, CameraModel.position.y, 0));
-        this.camera.position.x += 0.225 * block_size/10;
-        this.camera.position.y += 0.275 * block_size/10;
-        this.camera.position.x = CameraModel.position.x;
-        this.camera.position.y = CameraModel.position.y-4;
+   // this.progression = 0;
+
+    this.appUpdate = function(){
+        this.camera.position = CameraModel.position;
+        //this.camera.position.x += block_size/30;
+        //this.camera.position.y += block_size/30;
         this.camera.position.z = CameraModel.position.z;
     }
 
+}
+
+MapApp.prototype.appUpdate = function(){
+    console.log('self2');
 }
 
 // Custom Earth class
@@ -76,10 +79,10 @@ Square.prototype.init = function(x, y){
     var reflectivity = 0;    
     switch(type){
         case "grass":
-            var earthmap = "tiles/samatrawa.png";
+            var earthmap = "tiles/grass_4pak.png";
             break;
         case "water":
-            var earthmap = "tiles/samawoda.png";
+            var earthmap = "tiles/water background.png";
             reflectivity = 1;
             break;
             
@@ -135,31 +138,47 @@ MapObject = function(){
 MapObject.prototype = new Sim.Object();
 
 MapObject.prototype.init = function(x, y, type){
+    var register = false;
+    this.type=type;
     switch(type){
         case "tree":
-            var textureURL = "tiles/samodrzewo.gif";
+            var textureURL = "tiles/tree_smile.png";
+            var width = 1;
+            var height = 2;
+            y=y+0.7;
             break;
         case "luigi":
             //alert('luigi');
             //console.log('luigi')
             var textureURL = "tiles/luigi.png";
+            var width = 0.4;
+            var height = 0.8;
+            var att = 0;
+            register = true;
             break;
         case "water":
             var textureURL = "tiles/samawoda.png";
             break;
             
     }
+    object_storage.registerObject(this);
+    width = width*block_size;
+    height = height * block_size;
     //console.log(textureURL);
-    var geometry = new THREE.PlaneGeometry(1*block_size, 2*block_size);
+    var geometry = new THREE.PlaneGeometry(width, height);
     var texture = THREE.ImageUtils.loadTexture(textureURL);
     var material = new THREE.MeshPhongMaterial( { map: texture, transparent:true } );
     //material.depthWrite = false;
 
     var mesh = new THREE.Mesh( geometry, material ); 
 
+    this.mesh = mesh;
+
     mesh.position.x=x*block_size;
-    mesh.position.y=(y + 0.7)*block_size;
+    //mesh.position.y=(y + 0.7)*block_size;
+    mesh.position.y = y*block_size;
     mesh.translateZ(1*block_size);
+    mesh.position.z = att;
 
     mesh.rotation.x = Math.round(45 * 100 * Math.PI /180)/100;
 
@@ -172,5 +191,26 @@ MapObject.prototype.init = function(x, y, type){
 }
 
 MapObject.prototype.update = function(){
-    this.object3D.position.z = tree_offset;
+    switch(this.type){
+        case 'tree':
+            this.mesh.position.z=0.65;
+            break;
+        case 'luigi':
+            this.mesh.position.z = 0.3;
+    }
+}
+
+MapObject.prototype.setPos = function(x, y){
+    this.mesh.position.x = x;
+    this.mesh.position.y = y;
+}
+
+MapObject.prototype.setZ = function(z){
+    this.mesh.position.z = z;
+}
+
+MapObject.prototype.translate = function(x, y){
+    this.setPos(this.mesh.position.x+x, this.mesh.position.y+y);
+    //this.mesh.position.x+=x;
+    //this.mesh.position.y+=y;
 }

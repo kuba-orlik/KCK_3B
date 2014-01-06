@@ -150,8 +150,8 @@ Sim.App.prototype.update = function()
 	{
 		this.objects[i].update();
 	}
-	if(this.selfUpdate!=undefined){
-		this.selfUpdate();
+	if(this.appUpdate!=undefined){
+		this.appUpdate();
 	}
 }
 
