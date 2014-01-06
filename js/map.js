@@ -1,4 +1,62 @@
+	var Parser = { }
 
+	Parser.name = 'notationParser';
+	
+	Parser.parseToRegex = function (input){
+		input = input.replace(/\?/g, "\\?");
+		input = input.replace(/\)\\\?/g, ")?");
+		
+		//first parse all the (opt1|opt2|...) alternatives
+		var opt_reg = /\([\w\| ]+\)/g;
+		var matches = input.match(opt_reg);
+		for(var i in matches){
+			var match = matches[i];
+			}
+		
+		//if parameter starts with "#", its value does not contain spaces.
+		var param_names = [];
+		var hash_param_reg = /\#\w+/g;
+		var new_param_names = input.match(hash_param_reg);
+		for(var i in new_param_names){
+			param_names.push(new_param_names[i]);
+			}
+		var processed_input = input;
+		for(var i in param_names){
+			var new_regex;
+			if(param_names[i][0]=="$"){
+				new_regex = "[\\w ]+";
+				}
+			else{
+				new_regex = "[\\w]+";
+				}
+			processed_input = processed_input.replace(param_names[i], new_regex)
+			}
+		processed_input = processed_input.replace(/[ ,.;]+/g, "\\W+");
+		processed_input = processed_input.replace(/\([^\(]*\)\?/, function(match){
+			match = match.replace("(", "((");
+			match = match.replace(")?", ")\\W+)?");
+			return match;
+			});
+		processed_input = processed_input.replace(")?\\W+", ")?");
+		processed_input="^" + processed_input + "$"; 	
+		var ret = new RegExp(processed_input);
+		return ret;
+		};
+	
+	Parser.notationMatchesInput = function(notation, input){
+		if(input==undefined){
+			return false;
+			}
+		else{
+			input = input.toLowerCase();
+			notation = notation.toLowerCase();
+			var regex = Parser.parseToRegex(notation);
+			return input.match(regex)!=null;			
+			}
+	
+		};
+
+		
 var tree_offset = 0.65;
 
 
