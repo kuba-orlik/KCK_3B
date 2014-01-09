@@ -1,5 +1,7 @@
 	var Parser = { }
 
+    console.log(Parser);
+
 	Parser.name = 'notationParser';
 	
 	Parser.parseToRegex = function (input){
@@ -24,11 +26,10 @@
 		for(var i in param_names){
 			var new_regex;
 			if(param_names[i][0]=="$"){
-				new_regex = "[\\w ]+";
-				}
-			else{
-				new_regex = "[\\w]+";
-				}
+				new_regex = "([\\w ]+)";
+			}else{
+				new_regex = "([\\w]+)";
+			}
 			processed_input = processed_input.replace(param_names[i], new_regex)
 			}
 		processed_input = processed_input.replace(/[ ,.;]+/g, "\\W+");
@@ -41,20 +42,55 @@
 		processed_input="^" + processed_input + "$"; 	
 		var ret = new RegExp(processed_input);
 		return ret;
-		};
+	};
 	
 	Parser.notationMatchesInput = function(notation, input){
 		if(input==undefined){
 			return false;
-			}
-		else{
+		}else{
 			input = input.toLowerCase();
 			notation = notation.toLowerCase();
 			var regex = Parser.parseToRegex(notation);
 			return input.match(regex)!=null;			
-			}
-	
-		};
+		}	
+	};
+
+    Parser.extractAttributes = function(regex, input){
+
+    }
+
+    function scheme(notation, command){
+        this.regex = Parser.parseToRegex(notation);
+
+        this.command = command;
+
+        this.execute = function(input){
+            var params = Parser.extractAttributes(this.regex, input);
+        }
+    }
+
+    scheme.prototype.matches = function(input){
+        return input.match(this.regex)!=null;
+    }
+
+    scheme_collection = new function(){
+        this.collection = [
+            new scheme("(Idz|Pojdz) w (yis)? #kierunek", function(kierunek){
+                alert('idz w ' + kierunek);
+            })      
+        ];
+
+        this.user_input = function(input){
+            for(var i in this.collection){
+                var scheme = this.collection[i];
+                if(scheme.matches(input)){
+                    scheme.execute();
+                }
+            }
+        }
+
+    }
+
 
 		
 var tree_offset = 0.65;

@@ -5,9 +5,9 @@ var object_storage = new function(){
 	this.objects= {};
 
 	this.registerObject= function(object){
-		console.log('register');
+//		console.log('register');
 		var type = object.type;
-		console.log(type);
+//		console.log(type);
 		if(this.objects[type]==undefined){
 			this.objects[type]=[];
 		}
@@ -15,9 +15,9 @@ var object_storage = new function(){
 	};
 
 	this.getObjectsByType= function(type){
-		console.log(this.objects);
+//		console.log(this.objects);
 		for(var i in this.objects){
-			console.log(objects[i]);
+//			console.log(objects[i]);
 		}
 	}
 }
@@ -56,6 +56,6 @@ objectMap[15][15].push('luigi');
 MapModel.objectMap = objectMap;
 
 
-console.log(objectMap);
-
 //console.log(objectMap);
+
+////console.log(objectMap);
