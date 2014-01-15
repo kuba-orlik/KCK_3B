@@ -1,4 +1,4 @@
-	var Parser = { }
+﻿	var Parser = { }
 
     console.log(Parser);
 
@@ -75,9 +75,18 @@
 
     scheme_collection = new function(){
         this.collection = [
-            new scheme("(Idz|Pojdz) w (yis)? #kierunek", function(kierunek){
+            new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) w #kierunek", function(kierunek){
                 alert('idz w ' + kierunek);
-            })      
+            })
+			new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ile (pole|pola)? w #kierunek", function(ile, kierunek){
+                alert('idz w ' + ile + kierunek);
+            })
+			new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ilex (pole|pola)? w #kierunekx, (id(z|ź)|p(ó|o)jd(z|ź)) #iley (pole|pola)? w #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+                alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+			})
+			new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) do #item", function(item)){
+				alert('idz do ' + item);
+			})
         ];
 
         this.user_input = function(input){
