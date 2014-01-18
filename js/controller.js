@@ -108,7 +108,16 @@ function parseDirection(kierunek){
 		case "górę":
 			coord_y=1;
 			break;
+		case "gore":
+			coord_y=1;
+			break;
+		case "góre":
+			coord_y=1;
+			break;
 		case "dół":
+			coord_y=-1;
+			break;
+		case "dol":
 			coord_y=-1;
 			break;
 		default:
