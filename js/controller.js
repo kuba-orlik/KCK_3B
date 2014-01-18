@@ -44,7 +44,7 @@ Parser.parseToRegex = function (input){
 		}
 	processed_input = processed_input.replace(/[ ,.;]+/g, "\\W+");
 	processed_input = processed_input.replace(/\([^\(]*\)\?/, function(match){
-		match = match.replace("(", "((");
+		match = match.replace("(", "(?:(");
 		match = match.replace(")?", ")\\W+)?");
 		return match;
 		});
@@ -94,32 +94,50 @@ scheme.prototype.matches = function(input){
     return input.match(this.regex)!=null;
 }
 
+function parseDirection(kierunek){
+	var coord_x = 0;
+	var coord_y = 0;
+	var error = false;
+	switch(kierunek){
+		case "lewo":
+			coord_x=-1;
+			break;
+		case "prawo":
+			coord_x=1;
+			break;
+		case "górę":
+			coord_y=1;
+			break;
+		case "dół":
+			coord_y=-1;
+			break;
+		default:
+			say('Nie wiem, jaki to kierunek: "' + kierunek + '"');
+			return null;
+			break;
+	}
+	return {x: coord_x, y: coord_y};
+}
+
 scheme_collection = new function(){
     this.collection = [
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) w #kierunek", function(kierunek){
-        	var coord_x = 0;
-        	var coord_y = 0;
-        	switch(kierunek){
-        		case "lewo":
-        			coord_x=-1;
-    				break;
-    			case "prawo":
-    				coord_x=1;
-					break;
-				case "górę":
-					coord_y=1;
-					break;
-				case "dół":
-					coord_y=-1;
-					break;
-        	}
+        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) w #kierunek", function(kierunek){        	
         	var amount = Math.ceil(Math.random()*3);
-        	coord_y = coord_y*amount;
-        	coord_x = coord_x*amount;
-            controller.main_hero.translate(coord_x, coord_y);
+        	var coords = parseDirection(kierunek);
+        	if(coords!=null){
+	        	coords.y = coords.y*amount;
+	        	coords.x = coords.x*amount;
+	            controller.main_hero.translate(coords.x, coords.y);        		
+        	}
         }),
-		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) (o)? #ile (pole|pola|pól)? w #kierunek", function(ile, kierunek){
-            alert('idz w ' + ile + kierunek);
+		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól)? w #kierunek", function(ile, kierunek){
+            var amount = ile;
+        	var coords = parseDirection(kierunek);
+        	if(coords!=null){
+	        	coords.y = coords.y*amount;
+	        	coords.x = coords.x*amount;
+	            controller.main_hero.translate(coords.x, coords.y);        		
+        	}
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ilex (pole|pola)? w #kierunekx, (id(z|ź)|p(ó|o)jd(z|ź)) #iley (pole|pola)? w #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
@@ -159,23 +177,26 @@ function dialog_entry(name, text){
 }
 
 dialog = new function(){
+
+	var self = this;
+
 	this.history = []; //array of dialog_entry
 
 	this.container_selector = "#dialog_content";
 
 	this.log = function(text){
-		var entry = new dialog_entry('me', text);
+		var entry = new dialog_entry('ja', text);
 		this.pushEntry(entry);
 	}
 
 	this.say = function(text){
 		var entry = new dialog_entry('Luigi', text);
-		this.pushEntry(entry);
+		self.pushEntry(entry);
 	}
 
 	this.pushEntry = function(entry){
-		this.history.push(entry);
-		this.render();
+		self.history.push(entry);
+		self.render();
 	}
 
 	this.render = function(){
@@ -187,7 +208,7 @@ dialog = new function(){
 			console.log(entry);
 			var div = $("<tr></tr>");
 			//div.addClass('dialog_entry');
-			var name = $("<td style='font-weight:bold; vertical-align:top'></td>");
+			var name = $("<td style='font-weight:bold; vertical-align:top; text-align:right'></td>");
 			name.appendTo(div);
 			name.text(entry.name + ": ");
 			var content = $("<td></td>");
@@ -199,6 +220,7 @@ dialog = new function(){
 		container.parent()[0].scrollTop = container.parent()[0].scrollHeight;
 	}
 };
+var say = dialog.say;
 
 
 function submit_user_input(){
