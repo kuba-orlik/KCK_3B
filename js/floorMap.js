@@ -43,7 +43,7 @@ var CameraModel = {
 $(document).ready(function(){
 	$(document).keydown(function(e){
 		var c = e.keyCode;
-		console.log(e);
+		//console.log(e);
 		switch(c){
 			case 38:
 				if(e.shiftKey){
@@ -66,7 +66,9 @@ $(document).ready(function(){
 				CameraModel.position.x-=1;
 				break;
 		}
-		console.log(CameraModel.position.x, CameraModel.position.y);
+		//console.log(CameraModel.position.x, CameraModel.position.y);
 	});
 	//alert('keypress added');
 });
+
+
