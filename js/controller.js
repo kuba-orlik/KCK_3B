@@ -146,16 +146,68 @@ scheme_collection = new function(){
         }
         if(!found){
         	console.log('none found');
+        	dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
         }
     }
 
 }
 
 
+function dialog_entry(name, text){
+	this.name = name;
+	this.text = text;
+}
+
+dialog = new function(){
+	this.history = []; //array of dialog_entry
+
+	this.container_selector = "#dialog_content";
+
+	this.log = function(text){
+		var entry = new dialog_entry('me', text);
+		this.pushEntry(entry);
+	}
+
+	this.say = function(text){
+		var entry = new dialog_entry('Luigi', text);
+		this.pushEntry(entry);
+	}
+
+	this.pushEntry = function(entry){
+		this.history.push(entry);
+		this.render();
+	}
+
+	this.render = function(){
+		var selector = this.container_selector;
+		$(selector).html("");
+		var container = $(selector);
+		for(var i in this.history){
+			var entry = this.history[i];
+			console.log(entry);
+			var div = $("<tr></tr>");
+			//div.addClass('dialog_entry');
+			var name = $("<td style='font-weight:bold; vertical-align:top'></td>");
+			name.appendTo(div);
+			name.text(entry.name + ": ");
+			var content = $("<td></td>");
+			content.appendTo(div);
+			content.text(entry.text);
+			div.appendTo(container);
+		}
+		//console.log(container.parent())
+		container.parent()[0].scrollTop = container.parent()[0].scrollHeight;
+	}
+};
+
+
 function submit_user_input(){
 	var user_input = $('#query').val();
+	dialog.log(user_input);
 	scheme_collection.user_input(user_input);
+	$("#query").val("");
 }
+
 
 $(document).ready(function(){
 	$('#go').click(function(){

@@ -4,7 +4,7 @@ var water_probability = 3;
 
 var grass_probability = 17;
 
-var MapModel = {};
+var MapModel = new (function(){})();
 
 var types_amount = 2;
 var floorMap = [];
@@ -30,6 +30,28 @@ for(var i=1; i<=map_size; i++){
 }
 
 MapModel.floorMap = floorMap;
+
+MapModel.isObstacle = function(x,y){
+	var floor = this.floorMap[x][y];
+	var objects = this.objectMap[x][y];
+	var response = {
+		obstacle: false,
+		type: null,
+		reason: null
+	}
+	if(floor=='water'){
+		response.obstacle = true;
+		response.type = 'floor';
+		response.reason = ' water';
+	}
+	if(objects.length>0){
+		response.obstacle = true;
+		response.type = 'object';
+		response.reason = this.objectMap[x][y][0];
+	}
+	return response;
+	//console.log(floor, objects);
+}
 
 
 var CameraModel = {

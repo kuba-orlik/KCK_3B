@@ -214,7 +214,10 @@ MapObject.prototype.setZ = function(z){
 
 MapObject.prototype.translate = function(x, y){
     //alert(x);
-    this.setPos(parseInt(this.mesh.position.x)+parseInt(x), parseInt(this.mesh.position.y)+parseInt(y));
+    var new_x = parseInt(this.mesh.position.x)+parseInt(x);
+    var new_y = parseInt(this.mesh.position.y)+parseInt(y);
+    console.log(MapModel.isObstacle(new_x, new_y));
+    this.setPos(new_x, new_y);
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
 }
