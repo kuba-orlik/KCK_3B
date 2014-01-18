@@ -139,6 +139,11 @@ scheme_collection = new function(){
 	            controller.main_hero.translate(coords.x, coords.y);        		
         	}
         }),
+        new scheme("(opowiedz mi (z|ż)art|tell me a joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|Krzysiu Weiss)", function(){
+        	$.get('http://api.icndb.com/jokes/random', function(data){
+        		say("Ok, znasz ten angielski żart? <i>" + data.value.joke + "</i>");
+        	})
+        }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ilex (pole|pola)? w #kierunekx, (id(z|ź)|p(ó|o)jd(z|ź)) #iley (pole|pola)? w #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
 		}),
@@ -211,9 +216,11 @@ dialog = new function(){
 			var name = $("<td style='font-weight:bold; vertical-align:top; text-align:right'></td>");
 			name.appendTo(div);
 			name.text(entry.name + ": ");
+			name.addClass('dialog_name');
 			var content = $("<td></td>");
+			content.addClass("message_" + entry.name );
 			content.appendTo(div);
-			content.text(entry.text);
+			content.html(entry.text);
 			div.appendTo(container);
 		}
 		//console.log(container.parent())
@@ -222,11 +229,31 @@ dialog = new function(){
 };
 var say = dialog.say;
 
+dialog_controller = new function(){
+	this.offset = 0;
+
+	this.getHistory = function(){
+		var c = -1;
+		var last_entry =null;
+		for(var i=dialog.history.length-1; i>=0; i--){
+			var entry = dialog.history[i];
+			if(entry.name=='ja'){
+				last_entry = entry;
+				c++;
+				if(c==this.offset){
+					return entry.text;
+				}
+			}
+		}
+		return last_entry.text;
+	}
+}
 
 function submit_user_input(){
 	var user_input = $('#query').val();
 	dialog.log(user_input);
 	scheme_collection.user_input(user_input);
+	dialog_controller.offset = -1;
 	$("#query").val("");
 }
 
@@ -236,9 +263,17 @@ $(document).ready(function(){
 		submit_user_input();	
 	})	
 
-	$("#query").keypress(function(e){
+	$("#query").keydown(function(e){
 		if(e.keyCode==13){
 			submit_user_input();
+		}
+		//alert(e.keyCode);
+		if(e.keyCode==38){
+			//alert('eee');
+			dialog_controller.offset+=1;
+			$("#query").val(dialog_controller.getHistory());
+			e.preventDefault();
+			return null;
 		}
 	})
 });

@@ -62,7 +62,7 @@ var CameraModel = {
 	}
 };
 
-$(document).ready(function(){
+/*$(document).ready(function(){
 	$(document).keydown(function(e){
 		var c = e.keyCode;
 		//console.log(e);
@@ -94,3 +94,4 @@ $(document).ready(function(){
 });
 
 
+*/
