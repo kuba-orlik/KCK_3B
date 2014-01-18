@@ -35,7 +35,7 @@ MapModel.floorMap = floorMap;
 var CameraModel = {
 	position: {
 		x: 15,
-		y:15,
+		y:10,
 		z:5
 	}
 };

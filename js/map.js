@@ -37,6 +37,8 @@ MapApp.prototype.init = function(param)
             }
         }
     }
+
+    controller.setup();
     
     // Let there be light!
     var sun = new Sun();
@@ -44,7 +46,7 @@ MapApp.prototype.init = function(param)
     this.addObject(sun);
 
     this.camera.position.x = 15*block_size;
-    this.camera.position.y = 15*block_size;
+    this.camera.position.y = 10*block_size;
     this.camera.position.z=30*block_size;
     this.camera.rotation.x = Math.round(45 * 100* Math.PI/180)/100;
 
@@ -211,7 +213,8 @@ MapObject.prototype.setZ = function(z){
 }
 
 MapObject.prototype.translate = function(x, y){
-    this.setPos(this.mesh.position.x+x, this.mesh.position.y+y);
+    //alert(x);
+    this.setPos(parseInt(this.mesh.position.x)+parseInt(x), parseInt(this.mesh.position.y)+parseInt(y));
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
 }

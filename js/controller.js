@@ -16,13 +16,14 @@ var Parser = {}
 Parser.parseToRegex = function (input){
 	input = input.replace(/\?/g, "\\?");
 	input = input.replace(/\)\\\?/g, ")?");
-	
+	input = input.replace(/\(/g, "(?:");
 	//first parse all the (opt1|opt2|...) alternatives
 	var opt_reg = /\([\w\| ]+\)/g;
 	var matches = input.match(opt_reg);
 	for(var i in matches){
 		var match = matches[i];
-		}
+	}
+	input.replace("(", "(?:"); //aby nie zapamiętywać wyników w tych grupach
 	
 	//if parameter starts with "#", its value does not contain spaces.
 	var param_names = [];
@@ -37,7 +38,7 @@ Parser.parseToRegex = function (input){
 		if(param_names[i][0]=="$"){
 			new_regex = "([\\w ]+)";
 		}else{
-			new_regex = "([\\w]+)";
+			new_regex = "([\\wóÓłŁżŻźŹćĆąĄęĘśŚ]+)";
 		}
 		processed_input = processed_input.replace(param_names[i], new_regex)
 		}
@@ -65,7 +66,7 @@ Parser.notationMatchesInput = function(notation, input){
 };
 
 Parser.extractAttributes = function(regex, input){
-
+	console.log(input.match(regex));
 }
 
 function scheme(notation, command){
@@ -73,9 +74,19 @@ function scheme(notation, command){
 
     this.command = command;
 
+    this.notation = notation;
+
+    this.extractParameters = function(input){
+    	var matches = input.match(this.regex);
+    	matches.splice(0, 1);
+    	return matches;
+    }
+
     this.execute = function(input){
-        var params = Parser.extractAttributes(this.regex, input);
-        this.command();
+    	console.log(input);
+        var params = this.extractParameters(input);
+        console.log(params);
+        this.command.apply(this, params);
     }
 }
 
@@ -86,7 +97,26 @@ scheme.prototype.matches = function(input){
 scheme_collection = new function(){
     this.collection = [
         new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) w #kierunek", function(kierunek){
-            alert('idz w ' + kierunek);
+        	var coord_x = 0;
+        	var coord_y = 0;
+        	switch(kierunek){
+        		case "lewo":
+        			coord_x=-1;
+    				break;
+    			case "prawo":
+    				coord_x=1;
+					break;
+				case "górę":
+					coord_y=1;
+					break;
+				case "dół":
+					coord_y=-1;
+					break;
+        	}
+        	var amount = Math.ceil(Math.random()*3);
+        	coord_y = coord_y*amount;
+        	coord_x = coord_x*amount;
+            controller.main_hero.translate(coord_x, coord_y);
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) (o)? #ile (pole|pola|pól)? w #kierunek", function(ile, kierunek){
             alert('idz w ' + ile + kierunek);
@@ -101,14 +131,21 @@ scheme_collection = new function(){
 
     this.user_input = function(input){
     	input = input.toLowerCase();
-    	console.log("user_input:" + input);
-    	console.log(this.collection);
+    	//console.log("user_input:" + input);
+    	//console.log(this.collection);
+    	console.log('looking for a match...');
+    	var found = false;
         for(var i in this.collection){
             var scheme = this.collection[i];
             if(scheme.matches(input)){
+            	found = true;
             	console.log('found match: ', scheme);
-                scheme.execute();
+                scheme.execute(input);
+                break;
             }
+        }
+        if(!found){
+        	console.log('none found');
         }
     }
 
