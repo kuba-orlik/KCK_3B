@@ -30,13 +30,23 @@
 			);
 
 		</script>
+		<style>
+		canvas{
+			display:inline-block;
+		}
+		</style>
 	</head>
-	<body>
-	<div id='container' style="width:720; height:480px">
+	<body style='background-color: rgb(168, 168, 168);'>
+	<div style='width: 100%; height: calc(100% - 3rem); text-align:center;'>
+		<div id='container' style="width:720; height:480px; display:inline-block">
 
+		</div>
+		<br/>
+		<input id='query' placeholder='wpisz polecenie...' style='font-size: 2rem;width: 720px;'/>
 	</div>
-		<input id='query'/>
-		<button id='go'>go!</button>
+	<div style='width:100%; text-align:center;'>
+	</div>
+		<!--<button id='go'>go!</button>-->
 		<span id='mathc'>
 
 		</span>
