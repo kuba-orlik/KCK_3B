@@ -213,7 +213,7 @@ MapObject.prototype.setZ = function(z){
 }
 
 MapObject.prototype.translate = function(x, y){
-    //alert(x);
+    console.log('translate(', x, y, ")");
     var new_x = parseInt(this.mesh.position.x)+parseInt(x);
     var new_y = parseInt(this.mesh.position.y)+parseInt(y);
     console.log(MapModel.isObstacle(new_x, new_y));

@@ -182,7 +182,7 @@ scheme_collection = new function(){
         	}
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól)? w #kierunek", function(ile, kierunek){
-            var amount = ile;
+            var amount = parseNumber(ile);
         	var coords = parseDirection(kierunek);
         	if(coords!=null){
 	        	coords.y = coords.y*amount;
