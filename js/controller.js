@@ -167,7 +167,7 @@ function parseNumber(ile){
 			return null;
 			break;
 	}
-	return ile;
+	return how_much;
 }
 
 scheme_collection = new function(){
