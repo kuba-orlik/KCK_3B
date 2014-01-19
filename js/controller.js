@@ -128,6 +128,48 @@ function parseDirection(kierunek){
 	return {x: coord_x, y: coord_y};
 }
 
+function parseNumber(ile){
+	var how_much = 0;
+	var error = false;
+	switch(ile){
+		case "jeden":
+			how_much = 1;
+			break;
+		case "jedną":
+			how_much = 1;
+			break;
+		case "jedna":
+			how_much = 1;
+			break;
+		case "jedno":
+			how_much = 1;
+			break;
+		case "dwa":
+			how_much = 2;
+			break;
+		case "dwie":
+			how_much = 2;
+			break;
+		case "trzy":
+			how_much = 3;
+			break;
+		case "cztery":
+			how_much = 4;
+			break;
+		case "pięć":
+			how_much = 5;
+			break;
+		case "piec":
+			how_much = 5;
+			break;
+		default:
+			say('To chyba za dużo: "' + ile + '"');
+			return null;
+			break;
+	}
+	return ile;
+}
+
 scheme_collection = new function(){
     this.collection = [
         new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) w #kierunek", function(kierunek){        	
