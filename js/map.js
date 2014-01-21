@@ -221,3 +221,25 @@ MapObject.prototype.translate = function(x, y){
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
 }
+
+
+MapObject.prototype.translate_steps = function(x, y){
+    var self = this;
+    var position = this.mesh.position;
+    console.log('translate_steps(', x, y, ")");
+    if(x!=0 || y!=0){
+        var step_x = x/Math.abs(x);
+        if(x==0){
+            step_x = 0;
+        }
+        var step_y = y/Math.abs(y);
+        if(y==0){
+            step_y = 0;
+        }
+        console.log('step_y', step_y);
+        this.translate(step_x, step_y);
+        setTimeout(function(){
+            self.translate_steps(x-step_x, y-step_y);
+        }, 1000)        
+    }
+}

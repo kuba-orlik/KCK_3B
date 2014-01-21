@@ -130,44 +130,49 @@ function parseDirection(kierunek){
 
 function parseNumber(ile){
 	var how_much = 0;
-	var error = false;
-	switch(ile){
-		case "jeden":
-			how_much = 1;
-			break;
-		case "jedną":
-			how_much = 1;
-			break;
-		case "jedna":
-			how_much = 1;
-			break;
-		case "jedno":
-			how_much = 1;
-			break;
-		case "dwa":
-			how_much = 2;
-			break;
-		case "dwie":
-			how_much = 2;
-			break;
-		case "trzy":
-			how_much = 3;
-			break;
-		case "cztery":
-			how_much = 4;
-			break;
-		case "pięć":
-			how_much = 5;
-			break;
-		case "piec":
-			how_much = 5;
-			break;
-		default:
-			say('To chyba za dużo: "' + ile + '"');
-			return null;
-			break;
+	//alert(parseInt(ile));
+	if(parseInt(ile)==NaN){
+		var error = false;
+		switch(ile){
+			case "jeden":
+				how_much = 1;
+				break;
+			case "jedną":
+				how_much = 1;
+				break;
+			case "jedna":
+				how_much = 1;
+				break;
+			case "jedno":
+				how_much = 1;
+				break;
+			case "dwa":
+				how_much = 2;
+				break;
+			case "dwie":
+				how_much = 2;
+				break;
+			case "trzy":
+				how_much = 3;
+				break;
+			case "cztery":
+				how_much = 4;
+				break;
+			case "pięć":
+				how_much = 5;
+				break;
+			case "piec":
+				how_much = 5;
+				break;
+			default:
+				say("<i>'" + ile + "'</i>? Nie wiem, co to za liczba.");
+				return null;
+				break;
+		}
+		return how_much;		
+	}else{
+		return parseInt(ile);
 	}
-	return how_much;
 }
 
 scheme_collection = new function(){
@@ -178,7 +183,7 @@ scheme_collection = new function(){
         	if(coords!=null){
 	        	coords.y = coords.y*amount;
 	        	coords.x = coords.x*amount;
-	            controller.main_hero.translate(coords.x, coords.y);        		
+	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
@@ -187,7 +192,7 @@ scheme_collection = new function(){
         	if(coords!=null){
 	        	coords.y = coords.y*amount;
 	        	coords.x = coords.x*amount;
-	            controller.main_hero.translate(coords.x, coords.y);        		
+	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
