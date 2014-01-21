@@ -130,8 +130,9 @@ function parseDirection(kierunek){
 
 function parseNumber(ile){
 	var how_much = 0;
-	//alert(parseInt(ile));
-	if(parseInt(ile)==NaN){
+	console.log('parseNumber(', ile, ")");
+	if(isNaN(parseInt(ile))){
+		console.log('input is not an integer, trying to match with a string pattern')
 		var error = false;
 		switch(ile){
 			case "jeden":
@@ -171,6 +172,7 @@ function parseNumber(ile){
 		}
 		return how_much;		
 	}else{
+		console.log('input is an integer. returning parseInt(input)', parseInt(ile));
 		return parseInt(ile);
 	}
 }
@@ -188,6 +190,7 @@ scheme_collection = new function(){
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
             var amount = parseNumber(ile);
+            console.log('number_parse_result:', amount);
         	var coords = parseDirection(kierunek);
         	if(coords!=null){
 	        	coords.y = coords.y*amount;

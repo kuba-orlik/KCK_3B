@@ -237,9 +237,15 @@ MapObject.prototype.translate_steps = function(x, y){
             step_y = 0;
         }
         console.log('step_y', step_y);
-        this.translate(step_x, step_y);
-        setTimeout(function(){
-            self.translate_steps(x-step_x, y-step_y);
-        }, 1000)        
+        var obstacle = MapModel.isObstacle(position.x+step_x, position.y+step_y);
+        console.log(obstacle);
+        if(!obstacle.obstacle){
+            this.translate(step_x, step_y);
+            setTimeout(function(){
+                self.translate_steps(x-step_x, y-step_y);
+            }, 1000)                    
+        }else{
+            say('Dalej nie mogę iść, ponieważ na mojej drodze stoi przeszkoda');
+        }
     }
 }
