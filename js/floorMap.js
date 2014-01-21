@@ -42,9 +42,9 @@ MapModel.isObstacle = function(x,y){
 	if(floor=='water'){
 		response.obstacle = true;
 		response.type = 'floor';
-		response.reason = ' water';
+		response.reason = 'water';
 	}
-	if(objects.length>0){
+	if(objects.length>0 && this.objectMap[x][y][0]!="luigi"){
 		response.obstacle = true;
 		response.type = 'object';
 		response.reason = this.objectMap[x][y][0];
@@ -54,11 +54,33 @@ MapModel.isObstacle = function(x,y){
 }
 
 
-var CameraModel = {
-	position: {
+var CameraModel = new function(){
+	this.position= {
 		x: 15,
 		y:10,
 		z:5
+	}
+
+	var padding = 2;
+
+	var y_offset = -5;
+
+	this.updatePosition = function(){
+		var hero_position = controller.main_hero.mesh.position;
+		var dif_x = hero_position.x-this.position.x;
+		var dif_y = hero_position.y-(this.position.y-y_offset);
+		if(Math.abs(dif_x)>padding){
+			console.log('dif_x:', dif_x);
+			var to_move_x = (dif_x/Math.abs(dif_x))*Math.abs(Math.abs(dif_x)-padding);
+			console.log('to_move_x:', to_move_x);
+			this.position.x+=to_move_x;
+		}
+		if(Math.abs(dif_y)>padding){
+			console.log('dif_y:', dif_y);
+			var to_move_y = (dif_y/Math.abs(dif_y))*Math.abs(Math.abs(dif_y)-padding);
+			console.log('to_move_y:', to_move_y);
+			this.position.y+=to_move_y;
+		}
 	}
 };
 

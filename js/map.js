@@ -54,8 +54,22 @@ MapApp.prototype.init = function(param)
 
    // this.progression = 0;
 
+   var camera_speed = 0.1;
+
     this.appUpdate = function(){
-        this.camera.position = CameraModel.position;
+        if(this.camera.position.x>CameraModel.position.x){
+            this.camera.position.x-=camera_speed;
+        }
+        if(this.camera.position.x<CameraModel.position.x){
+            this.camera.position.x+=camera_speed;
+        }
+        if(this.camera.position.y>CameraModel.position.y){
+            this.camera.position.y-=camera_speed;
+        }
+        if(this.camera.position.y<CameraModel.position.y){
+            this.camera.position.y+=camera_speed;
+        }
+        //this.camera.position = CameraModel.position;
         //this.camera.position.x += block_size/30;
         //this.camera.position.y += block_size/30;
         this.camera.position.z = CameraModel.position.z;
@@ -148,7 +162,7 @@ MapObject.prototype.init = function(x, y, type){
             var textureURL = "tiles/tree_smile.png";
             var width = 1;
             var height = 2;
-            y=y+0.7;
+            y=y+0.2;
             break;
         case "luigi":
             //alert('luigi');
@@ -218,6 +232,7 @@ MapObject.prototype.translate = function(x, y){
     var new_y = parseInt(this.mesh.position.y)+parseInt(y);
     console.log(MapModel.isObstacle(new_x, new_y));
     this.setPos(new_x, new_y);
+    CameraModel.updatePosition();
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
 }
@@ -245,7 +260,11 @@ MapObject.prototype.translate_steps = function(x, y){
                 self.translate_steps(x-step_x, y-step_y);
             }, 1000)                    
         }else{
-            say('Dalej nie mogę iść, ponieważ na mojej drodze stoi przeszkoda');
+            if(obstacle.reason=="water"){
+                say("Dalej nie pójdę! Tam jest mokro!");
+            }else{
+                say('Dalej nie mogę iść, ponieważ na mojej drodze stoi przeszkoda');                
+            }
         }
     }
 }
