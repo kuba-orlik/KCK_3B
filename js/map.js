@@ -258,7 +258,7 @@ MapObject.prototype.translate_steps = function(x, y){
             this.translate(step_x, step_y);
             setTimeout(function(){
                 self.translate_steps(x-step_x, y-step_y);
-            }, 1000)                    
+            }, 500)                    
         }else{
             if(obstacle.reason=="water"){
                 say("Dalej nie pójdę! Tam jest mokro!");
@@ -266,5 +266,16 @@ MapObject.prototype.translate_steps = function(x, y){
                 say('Dalej nie mogę iść, ponieważ na mojej drodze stoi przeszkoda');                
             }
         }
+    }
+}
+
+MapObject.prototype.parseTranslate = function(ile, kierunek){
+    var amount = parseNumber(ile);
+    console.log('number_parse_result:', amount);
+    var coords = parseDirection(kierunek);
+    if(coords!=null){
+        coords.y = coords.y*amount;
+        coords.x = coords.x*amount;
+        controller.main_hero.translate_steps(coords.x, coords.y);               
     }
 }

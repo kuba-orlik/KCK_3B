@@ -189,14 +189,10 @@ scheme_collection = new function(){
         	}
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
-            var amount = parseNumber(ile);
-            console.log('number_parse_result:', amount);
-        	var coords = parseDirection(kierunek);
-        	if(coords!=null){
-	        	coords.y = coords.y*amount;
-	        	coords.x = coords.x*amount;
-	            controller.main_hero.translate_steps(coords.x, coords.y);        		
-        	}
+			controller.main_hero.parseTranslate(ile, kierunek);
+        }),
+        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) w #kierunek (o)? #ile (pole|pola|pól|pol)?", function(kierunek, ile){
+			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
@@ -222,6 +218,7 @@ scheme_collection = new function(){
     	var found = false;
         for(var i in this.collection){
             var scheme = this.collection[i];
+            console.log(scheme.regex);
             if(scheme.matches(input)){
             	found = true;
             	console.log('found match: ', scheme);
