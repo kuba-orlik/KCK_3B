@@ -188,6 +188,9 @@ scheme_collection = new function(){
 	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
+        new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) w #kierunek", function(kierunek){
+        	say("dobrze, nie pójdę w " + kierunek);
+        }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),

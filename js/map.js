@@ -266,6 +266,8 @@ MapObject.prototype.translate_steps = function(x, y){
                 say('Dalej nie mogę iść, ponieważ na mojej drodze stoi przeszkoda');                
             }
         }
+    }else{
+        say('Ok, doszedłem na miejsce! Co teraz?')
     }
 }
 
