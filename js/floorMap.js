@@ -4,28 +4,35 @@ var water_probability = 3;
 
 var grass_probability = 17;
 
+var ice_probability = 10;
+
 var MapModel = new (function(){})();
 
 var types_amount = 2;
 var floorMap = [];
 
+var arr = [];
+for(var i=1; i<=water_probability; i++){
+	arr.push('water')
+}
+for(var i=1; i<=ice_probability; i++){
+	arr.push('ice')
+}
+for(var i=1; i<=grass_probability; i++){
+	arr.push('grass')
+}
+
 for(var i=1; i<=map_size; i++){
 	floorMap[i]=[];
 	for(var j=1; j<=map_size; j++){
-		var ran = Math.ceil(Math.random()*(water_probability + grass_probability));
-		/*switch(ran){
-			case 1:
-				floorMap[i][j]='grass';
-				break;
-			case 2: 
-				floorMap[i][j]='water';
-				break;
-		}*/
+		var ran = Math.floor(Math.random()*arr.length);
+		floorMap[i][j] = arr[ran];
+		/*var ran = Math.ceil(Math.random()*(water_probability + grass_probability));
 		if(ran<=water_probability){
 			floorMap[i][j]='water';
 		}else{
 			floorMap[i][j]='grass';
-		}
+		}*/
 	}
 }
 

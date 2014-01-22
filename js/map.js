@@ -23,7 +23,6 @@ MapApp.prototype.init = function(param)
 {
     Sim.App.prototype.init.call(this, param);
     
-    // Create the Earth and add it to our sim
     for(var i=1; i<=map_size; i++){
         for(var j=map_size; j>=1; j--){
             var square = new Square();
@@ -102,6 +101,10 @@ Square.prototype.init = function(x, y){
             var earthmap = "tiles/water background.png";
             reflectivity = 1;
             break;
+        case "ice":
+            var earthmap = "tiles/ice.png";
+            reflectivity = 0;
+            break;
             
     }
     //console.log(earthmap);
@@ -139,7 +142,8 @@ Sun.prototype = new Sim.Object();
 Sun.prototype.init = function()
 {
     // Create a point light to show off the earth - set the light out back and to left a bit
-    var light = new THREE.DirectionalLight( 0xa8813b, 2);
+    //var light = new THREE.DirectionalLight( 0xa8813b, 2);
+    var light = new THREE.DirectionalLight( 0xffffff, 1.2);
     light.position.set(-10, 0, 20);
     
 
@@ -181,7 +185,7 @@ MapObject.prototype.init = function(x, y, type){
     object_storage.registerObject(this);
     width = width*block_size;
     height = height * block_size;
-    //console.log(textureURL);
+    //alert(textureURL);
     var geometry = new THREE.PlaneGeometry(width, height);
     var texture = THREE.ImageUtils.loadTexture(textureURL);
     var material = new THREE.MeshPhongMaterial( { map: texture, transparent:true } );
@@ -268,18 +272,45 @@ MapObject.prototype.translate_steps = function(x, y){
             dialog_controller.listen();
         }
     }else{
-        say('Ok, doszedłem na miejsce! Co teraz?');
-        dialog_controller.listen();
+        if(x!=undefined){
+            say('Ok, doszedłem na miejsce! Co teraz?');
+            dialog_controller.listen();            
+        }
     }
 }
 
 MapObject.prototype.parseTranslate = function(ile, kierunek){
     var amount = parseNumber(ile);
-    console.log('number_parse_result:', amount);
-    var coords = parseDirection(kierunek);
-    if(coords!=null){
-        coords.y = coords.y*amount;
-        coords.x = coords.x*amount;
-        controller.main_hero.translate_steps(coords.x, coords.y);               
+    if(amount!=null){
+        console.log('number_parse_result:', amount);
+        var coords = parseDirection(kierunek);
+        alert(coords);
+        if(coords!=null){
+            coords.y = coords.y*amount;
+            coords.x = coords.x*amount;
+            controller.main_hero.translate_steps(coords.x, coords.y);               
+        }        
+    }else{
+        dialog_controller.listen()
+    }
+}
+
+MapObject.prototype.goAsFarAsPossible = function(direction){
+    if(direction!=null){
+        var new_position =  {
+            x: this.mesh.position.x + direction.x,
+            y: this.mesh.position.y + direction.y
+        }
+        var self = this;
+        var obstacle = MapModel.isObstacle(new_position.x, new_position.y);
+        if(!obstacle.obstacle){
+            this.translate(direction.x, direction.y);
+            setTimeout(function(){
+                self.goAsFarAsPossible(direction);
+            }, 500)
+        }else{
+            say("Ok, dalej nie mogę!");
+            dialog_controller.listen();
+        }        
     }
 }

@@ -42,7 +42,7 @@ Parser.parseToRegex = function (input){
 		}
 		processed_input = processed_input.replace(param_names[i], new_regex)
 		}
-	processed_input = processed_input.replace(/[ ,.;]+/g, "\\W+");
+	processed_input = processed_input.replace(/([ ,;]|\.\*)+/g, "\\W+");
 	processed_input = processed_input.replace(/\([^\(]*\)\?/, function(match){
 		match = match.replace("(", "(?:(");
 		match = match.replace(")?", ")\\W+)?");
@@ -78,6 +78,11 @@ function scheme(notation, command){
 
     this.extractParameters = function(input){
     	var matches = input.match(this.regex);
+    	if(matches==null){
+    		console.log('trying with trailing space');
+    		input +=" ";
+    		var matches = input.match(this.regex);
+    	}
     	matches.splice(0, 1);
     	return matches;
     }
@@ -91,13 +96,19 @@ function scheme(notation, command){
 }
 
 scheme.prototype.matches = function(input){
-    return input.match(this.regex)!=null;
+    if(input.match(this.regex)!=null){
+    	return true;
+	}else{
+		input+=" ";
+		return input.match(this.regex)!=null;
+	}
 }
 
 function parseDirection(kierunek){
 	var coord_x = 0;
 	var coord_y = 0;
 	var error = false;
+	console.log('parsing ', kierunek);
 	switch(kierunek){
 		case "lewo":
 			coord_x=-1;
@@ -122,6 +133,7 @@ function parseDirection(kierunek){
 			break;
 		default:
 			say('Nie wiem, jaki to kierunek: "' + kierunek + '"');
+			dialog_controller.listen();
 			return null;
 			break;
 	}
@@ -188,8 +200,15 @@ scheme_collection = new function(){
 	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
-        new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) w #kierunek", function(kierunek){
-        	say("dobrze, nie pójdę w " + kierunek);
+        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (jak)? (najdalej|najbardziej|najdalej|max) w #kierunek(jak tylko sie da|jak to mo(z|ż)liwe)?", function(kierunek){
+        	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
+        }),
+        new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) (w #kierunek)?.*", function(kierunek){
+        	if(kierunek==undefined){
+        		say("Dobrze, nie pójdę w " + kierunek);        		
+        	}else{
+        		say("Dobrze, nie pójdę. TAK BĘDĘ STAŁ")
+        	}
         	listen();
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
@@ -218,6 +237,7 @@ scheme_collection = new function(){
 
     this.user_input = function(input){
     	input = input.toLowerCase();
+    	//input+=" ";
     	//console.log("user_input:" + input);
     	//console.log(this.collection);
     	console.log('looking for a match...');
@@ -235,6 +255,7 @@ scheme_collection = new function(){
         if(!found){
         	console.log('none found');
         	dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
+        	dialog_controller.listen();
         }
     }
 
