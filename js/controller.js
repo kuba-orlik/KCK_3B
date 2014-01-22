@@ -190,6 +190,7 @@ scheme_collection = new function(){
         }),
         new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) w #kierunek", function(kierunek){
         	say("dobrze, nie pójdę w " + kierunek);
+        	listen();
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate(ile, kierunek);
@@ -199,10 +200,12 @@ scheme_collection = new function(){
         }),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
+        	listen();
         }),
         new scheme("(opowiedz mi (z|ż)art|tell (me)? (a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|Krzysiu Weiss)", function(){
         	$.get('http://api.icndb.com/jokes/random', function(data){
         		say("Ok, znasz ten angielski żart? <i>" + data.value.joke + "</i>");
+        		dialog_controller.listen();
         	})
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ilex (pole|pola|pól|pol)? w #kierunekx, (id(z|ź)|p(ó|o)jd(z|ź)) #iley (pole|pola|pól|pol)? w #kieruneky", function(ilex, kierunekx, iley, kieruneky){
@@ -246,6 +249,8 @@ function dialog_entry(name, text){
 dialog = new function(){
 
 	var self = this;
+
+	this.listening = true;
 
 	this.history = []; //array of dialog_entry
 
@@ -294,6 +299,16 @@ var say = dialog.say;
 dialog_controller = new function(){
 	this.offset = 0;
 
+	this.stop_listening = function(){
+		dialog.listening = false;
+		$("#query").attr("disabled", "disabled").attr("placeholder", "czekaj...");
+	}
+
+	this.listen = function(){
+		dialog.listening = true;
+		$("#query").removeAttr("disabled").attr("placeholder", "wpisz polecenie....").focus();
+	}
+
 	this.getHistory = function(){
 		var c = -1;
 		var last_entry =null;
@@ -314,6 +329,7 @@ dialog_controller = new function(){
 function submit_user_input(){
 	var user_input = $('#query').val();
 	dialog.log(user_input);
+	dialog_controller.stop_listening();
 	scheme_collection.user_input(user_input);
 	dialog_controller.offset = -1;
 	$("#query").val("");
