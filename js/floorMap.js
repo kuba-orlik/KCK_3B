@@ -4,7 +4,7 @@ var water_probability = 3;
 
 var grass_probability = 17;
 
-var ice_probability = 10;
+var ice_probability = 0;
 
 var MapModel = new (function(){})();
 

@@ -38,7 +38,7 @@ Parser.parseToRegex = function (input){
 		if(param_names[i][0]=="$"){
 			new_regex = "([\\w ]+)";
 		}else{
-			new_regex = "([\\wóÓłŁżŻźŹćĆąĄęĘśŚ]+)";
+			new_regex = "([\\wóÓłŁżŻźŹćĆąĄęĘśŚ]+)\\W*";
 		}
 		processed_input = processed_input.replace(param_names[i], new_regex)
 		}
@@ -125,6 +125,18 @@ function parseDirection(kierunek){
 		case "góre":
 			coord_y=1;
 			break;
+		case "pólnoc":
+			coord_y=1;
+			break;
+		case "polnoc":
+			coord_y=1;
+			break;
+		case "przód":
+			coord_y=1;
+			break;
+		case "przodu":
+			coord_y=1;
+			break;
 		case "dół":
 			coord_y=-1;
 			break;
@@ -189,9 +201,11 @@ function parseNumber(ile){
 	}
 }
 
+
 scheme_collection = new function(){
+
     this.collection = [
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) w #kierunek", function(kierunek){        	
+        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (w|do|na) #kierunek", function(kierunek){        	
         	var amount = Math.ceil(Math.random()*3);
         	var coords = parseDirection(kierunek);
         	if(coords!=null){
@@ -200,7 +214,7 @@ scheme_collection = new function(){
 	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (jak)? (najdalej|najbardziej|najdalej|max) w #kierunek(jak tylko sie da|jak to mo(z|ż)liwe)?", function(kierunek){
+        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do) #kierunek(jak (tylko)? si(ę|e) da|jak to (tylke)? mo(z|ż)liwe)?", function(kierunek){
         	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
         new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) (w #kierunek)?.*", function(kierunek){
@@ -209,13 +223,20 @@ scheme_collection = new function(){
         	}else{
         		say("Dobrze, nie pójdę. TAK BĘDĘ STAŁ")
         	}
-        	listen();
+        	dialog_controller.listen();
         }),
-		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol)? w #kierunek", function(ile, kierunek){
+		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol|kroki|kroków|krok)? (w|do) #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) w #kierunek (o)? #ile (pole|pola|pól|pol)?", function(kierunek, ile){
+        new scheme("gdzie jeste(s|ś)?", function(){
+        	say("za sałatą!");
+        	dialog_controller.listen();
+        }),
+        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) w #kierunek (o)? #ile (pole|pola|pól|pol|kroki|kroków|krok)?", function(kierunek, ile){
 			controller.main_hero.parseTranslate(ile, kierunek);
+        }),
+        new scheme("zr(ó|o)b #ile (kroki|kroków|krok) w #kierunek", function(ile, kierunek){
+        	controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
@@ -229,13 +250,11 @@ scheme_collection = new function(){
         }),
 		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ilex (pole|pola|pól|pol)? w #kierunekx, (id(z|ź)|p(ó|o)jd(z|ź)) #iley (pole|pola|pól|pol)? w #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
-		}),
-		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) do #item", function(item){
-			alert('idz do ' + item);
 		})
     ];
 
     this.user_input = function(input){
+    	var listen = dialog_controller.listen;
     	input = input.toLowerCase();
     	//input+=" ";
     	//console.log("user_input:" + input);
@@ -254,7 +273,8 @@ scheme_collection = new function(){
         }
         if(!found){
         	console.log('none found');
-        	dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
+        	dialog.didnt_understand();
+        	//dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
         	dialog_controller.listen();
         }
     }
@@ -276,6 +296,24 @@ dialog = new function(){
 	this.history = []; //array of dialog_entry
 
 	this.container_selector = "#dialog_content";
+
+	this.didnt_understand = function(){
+		var apologies = [
+			"Sorki,",
+			"Wybacz, ale",
+			"Niestety",
+			"Sorry,",
+			""
+		];
+		var contents = [
+			"nie rozumiem polecenia",
+			"nie czaję",
+			"nie wiem, co starasz mi się przekazać"
+		]
+		var apology = apologies[Math.floor(Math.random()*apologies.length)];
+		var content = contents[Math.floor(Math.random()*contents.length)];
+		this.say(apology + " " + content);
+	}
 
 	this.log = function(text){
 		var entry = new dialog_entry('ja', text);

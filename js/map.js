@@ -143,7 +143,7 @@ Sun.prototype.init = function()
 {
     // Create a point light to show off the earth - set the light out back and to left a bit
     //var light = new THREE.DirectionalLight( 0xa8813b, 2);
-    var light = new THREE.DirectionalLight( 0xffffff, 1.2);
+    var light = new THREE.DirectionalLight( 0xffffff, 1);
     light.position.set(-10, 0, 20);
     
 
@@ -284,7 +284,7 @@ MapObject.prototype.parseTranslate = function(ile, kierunek){
     if(amount!=null){
         console.log('number_parse_result:', amount);
         var coords = parseDirection(kierunek);
-        alert(coords);
+        //alert(coords);
         if(coords!=null){
             coords.y = coords.y*amount;
             coords.x = coords.x*amount;
