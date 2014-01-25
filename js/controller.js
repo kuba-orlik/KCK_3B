@@ -217,6 +217,10 @@ scheme_collection = new function(){
         new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do) #kierunek(jak (tylko)? si(ę|e) da|jak to (tylke)? mo(z|ż)liwe)?", function(kierunek){
         	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
+        new scheme("nasza notacja #parametr", function(parametr){
+        	say(parametr);
+        	dialog_controller.listen();
+        }),
         new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) (w #kierunek)?.*", function(kierunek){
         	if(kierunek==undefined){
         		say("Dobrze, nie pójdę w " + kierunek);        		
