@@ -1,21 +1,97 @@
 <html>
-	<head>
-		<meta charset='UTF-8'/>
-		<title>
-			Farma Memów
-		</title>
-		<link rel='stylesheet' href='css/style.css'>
-		<script src='js/lib/angular.min.js'></script>
-		<script src='js/lib/ng-route.js'></script>
-		<script src='js/lib/ng-animate.js'></script>
-		<script src='js/mvc/modules.js'></script>
-		<script src='js/mvc/controllers.js'></script>
-		<script src='js/mvc/services.js'></script>
-		<script src='js/mvc/directives.js'></script>
-	</head>
-	<body ng-app='app'>
-		<div ng-view>
+	<title>Projekt na KCK</title>
+	<script src='js/libs/howler.js'></script>
+	<script src='js/libs/jquery.js'></script>
+	<link href='http://fonts.googleapis.com/css?family=Felipa&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<meta charset='UTF-8'/>
 
+
+	<script charset='UTF-8'>
+		var sound = new Howl({
+		  urls: ['music/title.mp3'],
+		  buffer: true,
+		  onload: function(){
+		  	console.log('loaded')
+		  }
+		}).play();
+
+		var recenzje = [
+			"Przerost formy nad treścią. 5/5",
+			"Jest angażujący emocjonalnie, wart każdej złotówki",
+			"Ma zabójcze poczucie humoru",
+			"Sprawi, że umrzesz ze śmiechu",
+			"Smuci i chwyta za serce",
+			"Uzależnia",
+			"Gdzie byłeś całe moje życie, 'Projekcie na KCKi'?",
+			"wow",
+			"Powiem tak...",
+			"Moim zdaniem...",
+			"Uważam, że...",
+			"a, co mi tam",
+			"czuję, że...",
+			"powiem to:"
+		];
+
+
+		function shuffleRecenzja(){
+			console.log('shuffle");')
+			$("#recenzje").fadeOut(800, function(){
+				$("#text").text(recenzje[Math.floor(Math.random()*recenzje.length)]);
+				$("#recenzje").fadeIn(800, function(){
+					setTimeout(function(){
+						shuffleRecenzja();
+					}, 4000);
+				});
+			});
+			
+		}
+
+		$(document).ready(function(){
+			$(".tofade").fadeIn(3000);
+			setTimeout(function(){
+				shuffleRecenzja();
+			}, 2500);
+			setTimeout(function(){
+				$(".tofade2").fadeIn(3000);				
+				$("#begin_input").focus();
+			}, 800);
+		})
+
+
+	</script>
+	<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+		<script src='js/libs/jquery.js'></script>
+		<script src='js/libs/jquery.mousewheel.js'></script>
+		<script src='js/libs/Three.js'></script>
+		<script src='js/libs/BokehShader.js'></script>
+		<script src='js/libs/RequestAnimationFrame.js'></script>
+		<script src='js/libs/sim/sim.js'></script>
+		<script src='js/floorMap.js'></script>
+		<script src='js/objectMap.js'></script>
+		<script src='js/map.js'></script>
+		<script src='js/controller.js' charset='UTF-8'></script>
+	<style>
+	body{
+		-webkit-filter:sepia(0.6);
+	}
+	</style>
+	<div style="position: absolute;width: 100%;top: 50%;margin-top: -300px;">
+		<div id='title' class='tofade' style='width:100%; text-align:center; display:none'>
+			<img src="tiles/title.png"/>
 		</div>
-	</body>
+		<div id='recenzje' style='font-family: Times;font-size: 2.5rem;color: rgb(33, 134, 33);font-style: italic;display: block;width: 100%;text-align: center;position: absolute;top: 335px;display:none'>
+			<span style="font-size: 165px;position: absolute;top: -12px;opacity: 0.3;padding-right: 21px;margin-left:-69px">
+				&ldquo;
+			</span>
+			<span id='text'>
+
+			</span>
+			<span style="font-size: 165px;position: absolute;top: -53px;opacity: 0.3;padding-right: 21px;margin-left:-62px">
+				&rdquo;
+			</span>
+		</div>
+		<div style='width:100%; text-align:center; position:absolute; top:421px	'>
+			<input id='begin_input' class='tofade2' style="border: 2px solid rgb(60, 148, 60);border-radius: 5px;font-size: 2rem;margin: 0 auto;display:none; padding-left:1rem; font-family: times; font-style: italic;" placeholder="wpisz 'start'..."/>
+		</div>
+	</div>
 </html>
