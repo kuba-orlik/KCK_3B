@@ -48,7 +48,9 @@
 		function change_callback(value){
 			var enter = $("#press_enter");
 			if(value=='start'){
-				enter.fadeIn(400);
+				setTimeout(function(){
+					enter.fadeIn(400);					
+				}, 200);
 			}else{
 				enter.fadeOut(400);
 			}
