@@ -34,7 +34,6 @@
 
 
 		function shuffleRecenzja(){
-			console.log('shuffle");')
 			$("#recenzje").fadeOut(800, function(){
 				$("#text").text(recenzje[Math.floor(Math.random()*recenzje.length)]);
 				$("#recenzje").fadeIn(800, function(){
@@ -46,15 +45,70 @@
 			
 		}
 
+		function change_callback(value){
+			var enter = $("#press_enter");
+			if(value=='start'){
+				enter.fadeIn(400);
+			}else{
+				enter.fadeOut(400);
+			}
+		}
+
+		function start(){
+			console.log('start()');
+			setTimeout(function(){
+				new Howl({
+				  urls: ['music/klik.mp3'],
+				  buffer: true
+				}).play();				
+			}, 50);
+			setTimeout(function(){
+				sound.fadeOut(0, 2000);	
+				setTimeout(function(){
+					startMusic();
+				}, 1500);
+				$("#intro").fadeOut(2000, function(){
+					$("iframe").attr('src', 'gra.html').fadeIn(2000);
+				});
+			}, 300);
+		}
+
+		function startMusic(){
+			console.log('')
+			var track_amount = 10;
+			var tracks = [];
+			for(var i=1; i<=track_amount; i++){
+				tracks.push("music/track (" + i + ").mp3");
+			}
+			var rand = Math.floor(Math.random()*track_amount);
+			var track = tracks[rand];
+			var sound = new Howl({
+			  urls: [track],
+			  buffer: true,
+			  onend: function(){
+			  	startMusic();
+			  }
+			}).play();
+			console.log(track, sound);
+		}
+
 		$(document).ready(function(){
 			$(".tofade").fadeIn(3000);
 			setTimeout(function(){
 				shuffleRecenzja();
 			}, 2500);
 			setTimeout(function(){
-				$(".tofade2").fadeIn(3000);				
+				$(".tofade2").fadeIn(800);				
 				$("#begin_input").focus();
-			}, 800);
+			}, 4700);
+			$(document).on("input", "#begin_input", function(){
+				change_callback($(this).val());
+			});	
+			$(document).on("keypress", "#begin_input", function(e){
+				if(e.charCode==13 && $(this).val()=="start"){
+					start();
+				}
+			});	
 		})
 
 
@@ -73,9 +127,10 @@
 	<style>
 	body{
 		-webkit-filter:sepia(0.6);
+		margin:0;
 	}
 	</style>
-	<div style="position: absolute;width: 100%;top: 50%;margin-top: -300px;">
+	<div id="intro" style="position: absolute;width: 100%;top: 50%;margin-top: -300px;">
 		<div id='title' class='tofade' style='width:100%; text-align:center; display:none'>
 			<img src="tiles/title.png"/>
 		</div>
@@ -92,6 +147,13 @@
 		</div>
 		<div style='width:100%; text-align:center; position:absolute; top:421px	'>
 			<input id='begin_input' class='tofade2' style="border: 2px solid rgb(60, 148, 60);border-radius: 5px;font-size: 2rem;margin: 0 auto;display:none; padding-left:1rem; font-family: times; font-style: italic;" placeholder="wpisz 'start'..."/>
+			<br/>
+			<i id="press_enter" style="font-family: times;font-size: 1.3rem;color: green;display:none">wciśnij <b>enter</b></i>
 		</div>
+	</div>
+	<div id='game' style='width:100%;height:100%'>
+		<iframe src="empty.html" style='width:100%;height:100%; display:none'>
+
+		</iframe>
 	</div>
 </html>
