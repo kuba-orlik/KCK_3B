@@ -42,13 +42,13 @@ Parser.parseToRegex = function (input){
 		}
 		processed_input = processed_input.replace(param_names[i], new_regex)
 		}
-	processed_input = processed_input.replace(/([ ,;]|\.\*)+/g, "\\W+");
+	processed_input = processed_input.replace(/([ ,;]|\.\*)+/g, "\\W*");
 	processed_input = processed_input.replace(/\([^\(]*\)\?/, function(match){
 		match = match.replace("(", "(?:(");
-		match = match.replace(")?", ")\\W+)?");
+		match = match.replace(")?", ")\\W*)?");
 		return match;
 		});
-	processed_input = processed_input.replace(")?\\W+", ")?");
+	processed_input = processed_input.replace(")?\\W*", ")?");
 	processed_input="^" + processed_input + "$"; 	
 	var ret = new RegExp(processed_input);
 	return ret;
@@ -75,6 +75,8 @@ function scheme(notation, command){
     this.command = command;
 
     this.notation = notation;
+
+    console.log(notation);
 
     this.extractParameters = function(input){
     	var matches = input.match(this.regex);
@@ -251,7 +253,7 @@ scheme_collection = new function(){
 	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
-        new scheme(verbs.go + " (si(ę|e)|jak|si(ę|e) jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na) #kierunek (jak (tylko)? si(ę|e) da|jak to (tylko)? mo(z|ż)liwe)?", function(kierunek){
+        new scheme(verbs.go + " (się|sie|jak|się jak|sie jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na) #kierunek (jak (tylko)? si(ę|e) da|jak to (tylko)? mo(z|ż)liwe)?", function(kierunek){
         	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
         new scheme("nasza notacja #parametr", function(parametr){
@@ -266,7 +268,7 @@ scheme_collection = new function(){
         	}
         	dialog_controller.listen();
         }),
-		new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ile " + nouns.steps + "? (w|do|na) #kierunek", function(ile, kierunek){
+		new scheme(verbs.go + " (się|o|się o)? #ile " + nouns.steps + "? (w|do|na) #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
