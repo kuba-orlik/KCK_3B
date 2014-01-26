@@ -288,7 +288,7 @@ scheme_collection = new function(){
         }),
 		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
-		})
+		}),
 		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
 		})
