@@ -277,7 +277,7 @@ scheme_collection = new function(){
 		}),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
-        	listen();
+        	dialog_controller.listen();
         }),
         new scheme("(opowiedz mi (z|ż)art|tell (me|a|me a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|karny suchar|Krzysiu Weiss)", function(){
         	$.get('http://api.icndb.com/jokes/random', function(data){
