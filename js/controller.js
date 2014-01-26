@@ -272,23 +272,23 @@ scheme_collection = new function(){
         new scheme("zr(ó|o)b #ile (kroki|krok(ó|o)w|krok) (w|na|do) #kierunek", function(ile, kierunek){
         	controller.main_hero.parseTranslate(ile, kierunek);
         }),
-		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))|o|si(ę|e) o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e)|o|si(ę|e) o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
 			controller.main_hero.parseTranslate('jeden', kierunek);
 		}),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
         	listen();
         }),
-        new scheme("(opowiedz mi (z|ż)art|tell (me)?(a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|karny suchar|Krzysiu Weiss)", function(){
+        new scheme("(opowiedz mi (z|ż)art|tell (me|a|me a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|karny suchar|Krzysiu Weiss)", function(){
         	$.get('http://api.icndb.com/jokes/random', function(data){
         		say("Ok, znasz ten angielski żart? <i>" + data.value.joke + "</i>");
         		dialog_controller.listen();
         	})
         }),
-		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e)|o|si(ę|e) o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))?(o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e)|o|si(ę|e) o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e)|o|si(ę|e) o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
 		}),
-		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))?(o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e)|o|si(ę|e) o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
 		})
     ];
