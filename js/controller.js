@@ -272,7 +272,7 @@ scheme_collection = new function(){
         new scheme("zr(ó|o)b #ile (kroki|krok(ó|o)w|krok) (w|na|do) #kierunek", function(ile, kierunek){
         	controller.main_hero.parseTranslate(ile, kierunek);
         }),
-		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))?(o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) w #kierunek", function(kierunek){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))?(o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
 			controller.main_hero.parseTranslate('jeden', kierunek);
 		}),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
