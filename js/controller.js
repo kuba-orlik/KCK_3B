@@ -263,16 +263,16 @@ scheme_collection = new function(){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
-			say("Jestem na polu (x = " + controller.main_hero.mesh.position.x + ", y = " + controller.main_hero.mesh.position.y)
+			say("Jestem na polu (x = " + controller.main_hero.mesh.position.x + ", y = " + controller.main_hero.mesh.position.y + ")")
         	dialog_controller.listen();
         }),
         new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (w|do|na) #kierunek (o)? #ile (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))?", function(kierunek, ile){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
-        new scheme("zr(ó|o)b #ile (kroki|kroków|krok) w #kierunek", function(ile, kierunek){
+        new scheme("zr(ó|o)b #ile (kroki|krok(ó|o)w|krok) (w|na|do) #kierunek", function(ile, kierunek){
         	controller.main_hero.parseTranslate(ile, kierunek);
         }),
-		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))? (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) w #kierunek", function(kierunek){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))? (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) w #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate('jeden', kierunek);
 		}),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
