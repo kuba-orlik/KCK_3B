@@ -244,7 +244,7 @@ scheme_collection = new function(){
 	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
-        new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na) #kierunek(jak (tylko)? si(ę|e) da|jak to (tylke)? mo(z|ż)liwe)?", function(kierunek){
+        new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na) #kierunek (jak (tylko)? si(ę|e) da|jak to (tylko)? mo(z|ż)liwe)?", function(kierunek){
         	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
         new scheme("nasza notacja #parametr", function(parametr){
@@ -263,8 +263,7 @@ scheme_collection = new function(){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
-        	say("za sałatą!");
-			say(controller.main_hero.mesh.position.x, controller.main_hero.mesh.position.y)
+			say("Jestem na polu (x = " + controller.main_hero.mesh.position.x + ", y = " + controller.main_hero.mesh.position.y)
         	dialog_controller.listen();
         }),
         new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (w|do|na) #kierunek (o)? #ile (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))?", function(kierunek, ile){
