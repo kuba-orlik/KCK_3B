@@ -113,10 +113,28 @@ function parseDirection(kierunek){
 		case "lewo":
 			coord_x=-1;
 			break;
+		case "zachód":
+			coord_x=-1;
+			break;
+		case "zachod":
+			coord_x=-1;
+			break;
 		case "prawo":
 			coord_x=1;
 			break;
+		case "wschód":
+			coord_x=1;
+			break;
+		case "wschod":
+			coord_x=1;
+			break;
 		case "górę":
+			coord_y=1;
+			break;
+		case "góry":
+			coord_y=1;
+			break;
+		case "gory":
 			coord_y=1;
 			break;
 		case "gore":
@@ -125,7 +143,7 @@ function parseDirection(kierunek){
 		case "góre":
 			coord_y=1;
 			break;
-		case "pólnoc":
+		case "północ":
 			coord_y=1;
 			break;
 		case "polnoc":
@@ -141,6 +159,18 @@ function parseDirection(kierunek){
 			coord_y=-1;
 			break;
 		case "dol":
+			coord_y=-1;
+			break;
+		case "dołu":
+			coord_y=-1;
+			break;
+		case "dolu":
+			coord_y=-1;
+			break;
+		case "południe":
+			coord_y=-1;
+			break;
+		case "poludnie":
 			coord_y=-1;
 			break;
 		default:
@@ -214,45 +244,52 @@ scheme_collection = new function(){
 	            controller.main_hero.translate_steps(coords.x, coords.y);        		
         	}
         }),
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do) #kierunek(jak (tylko)? si(ę|e) da|jak to (tylke)? mo(z|ż)liwe)?", function(kierunek){
+        new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na) #kierunek(jak (tylko)? si(ę|e) da|jak to (tylke)? mo(z|ż)liwe)?", function(kierunek){
         	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
         new scheme("nasza notacja #parametr", function(parametr){
         	say(parametr);
         	dialog_controller.listen();
         }),
-        new scheme("nie (idź|pójdź|skacz|przech(o|ó)d(ź|z)) (w #kierunek)?.*", function(kierunek){
-        	if(kierunek==undefined){
+        new scheme("nie (id(ź|z)|p(ó|o)jd(ź|z)|sk(a|o)cz|przech(o|ó)d(ź|z)) (w #kierunek)?.*", function(kierunek){
+        	if(kierunek!=undefined){
         		say("Dobrze, nie pójdę w " + kierunek);        		
         	}else{
         		say("Dobrze, nie pójdę. TAK BĘDĘ STAŁ")
         	}
         	dialog_controller.listen();
         }),
-		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (o)? #ile (pole|pola|pól|pol|kroki|kroków|krok)? (w|do) #kierunek", function(ile, kierunek){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #ile (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
         	say("za sałatą!");
+			say(controller.main_hero.mesh.position.x, controller.main_hero.mesh.position.y)
         	dialog_controller.listen();
         }),
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) w #kierunek (o)? #ile (pole|pola|pól|pol|kroki|kroków|krok)?", function(kierunek, ile){
+        new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (w|do|na) #kierunek (o)? #ile (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))?", function(kierunek, ile){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("zr(ó|o)b #ile (kroki|kroków|krok) w #kierunek", function(ile, kierunek){
         	controller.main_hero.parseTranslate(ile, kierunek);
         }),
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))? (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) w #kierunek", function(1, kierunek){
+			controller.main_hero.parseTranslate(1, kierunek);
+		}),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
         	listen();
         }),
-        new scheme("(opowiedz mi (z|ż)art|tell (me)? (a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|Krzysiu Weiss)", function(){
+        new scheme("(opowiedz mi (z|ż)art|tell (me)? (a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|karny suchar|Krzysiu Weiss)", function(){
         	$.get('http://api.icndb.com/jokes/random', function(data){
         		say("Ok, znasz ten angielski żart? <i>" + data.value.joke + "</i>");
         		dialog_controller.listen();
         	})
         }),
-		new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz) #ilex (pole|pola|pól|pol)? w #kierunekx, (id(z|ź)|p(ó|o)jd(z|ź)) #iley (pole|pola|pól|pol)? w #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+            alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+		})
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e))? (o)? #ilex (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
 		})
     ];
