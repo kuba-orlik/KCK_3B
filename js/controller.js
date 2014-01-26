@@ -273,8 +273,13 @@ scheme_collection = new function(){
         new scheme("zr(ó|o)b #ile (kroki|kroków|krok) w #kierunek", function(ile, kierunek){
         	controller.main_hero.parseTranslate(ile, kierunek);
         }),
+<<<<<<< HEAD
 		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))? (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) w #kierunek", function(kierunek){
 			controller.main_hero.parseTranslate("jeden", kierunek);
+=======
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)|zr(ó|o)b) (si(ę|e))? (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) w #kierunek", function(ile, kierunek){
+			controller.main_hero.parseTranslate(1, kierunek);
+>>>>>>> a3caba415c92a8d1c06e74ba7b14255fcfed30fa
 		}),
         new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
         	say('Dzień dobry. Mamy dzisiaj piękny dzień');
