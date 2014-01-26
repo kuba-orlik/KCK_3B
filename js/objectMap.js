@@ -41,13 +41,17 @@ for(var i = map_size; i>=1; i--){
 		objectMap[i][j] = [];
 		//objectMap[i][j].push('luigi');
 		//objectMap[i][j].push('tree');
-		var rand = Math.ceil(Math.random()*8);
-		switch(rand){
-			case 1:
-				if(MapModel.floorMap[i][j]=='grass' && i!=15 && j!=15){
-					objectMap[i][j].push('tree');					
-				}
-				break;
+		if(i==1 || j==1){
+			objectMap[i][j].push('tree');
+		}else{
+			var rand = Math.ceil(Math.random()*8);
+			switch(rand){
+				case 1:
+					if(MapModel.floorMap[i][j]=='grass' && i!=15 && j!=15){
+						objectMap[i][j].push('tree');					
+					}
+					break;
+			}
 		}
 	}
 }
