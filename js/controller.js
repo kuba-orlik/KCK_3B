@@ -231,11 +231,18 @@ function parseNumber(ile){
 	}
 }
 
+var verbs = {
+	go: "(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź))"
+}
+
+var nouns = {
+	steps = "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))"
+}
 
 scheme_collection = new function(){
 
     this.collection = [
-        new scheme("(id(z|ź)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(z|ź)) (w|do|na) #kierunek", function(kierunek){        	
+        new scheme(verbs.go + " (w|do|na) #kierunek", function(kierunek){        	
         	var amount = Math.ceil(Math.random()*3);
         	var coords = parseDirection(kierunek);
         	if(coords!=null){
@@ -251,7 +258,7 @@ scheme_collection = new function(){
         	say(parametr);
         	dialog_controller.listen();
         }),
-        new scheme("nie (id(ź|z)|p(ó|o)jd(ź|z)|sk(a|o)cz|przech(o|ó)d(ź|z)) (w #kierunek)?.*", function(kierunek){
+        new scheme("nie " + verbs.go + " (w #kierunek)?.*", function(kierunek){
         	if(kierunek!=undefined){
         		say("Dobrze, nie pójdę w " + kierunek);        		
         	}else{
@@ -259,7 +266,7 @@ scheme_collection = new function(){
         	}
         	dialog_controller.listen();
         }),
-		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e)|o|si(ę|e) o)? #ile (pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))? (w|do|na) #kierunek", function(ile, kierunek){
+		new scheme("(id(z|ź)|przesu(n|ń)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z)) (si(ę|e)|o|si(ę|e) o)? #ile " + nouns.steps + "? (w|do|na) #kierunek", function(ile, kierunek){
 			controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
