@@ -205,7 +205,11 @@ MapObject.prototype.init = function(x, y, type){
             var textureURL = "tiles/samawoda.png";
             break;
         case "meme":
+            var width = 1;
+            var height = 1;
+            var att = 0;
             var textureURL = "tiles/"  + this.tile;
+            break;
             
     }
     object_storage.registerObject(this);
@@ -461,7 +465,7 @@ MapObject.prototype.lookAround = function(radius){
                 say(to_say);
                 break;
             case "meme":
-                if(summary[i]){
+                if(summary[i]==1){
                     var   to_say = "OMG widzę mema";                    
                 }else{
                     var to_say = "OMG widzę memy";
@@ -475,5 +479,31 @@ MapObject.prototype.lookAround = function(radius){
                 break;
         }
     }
+    dialog_controller.listen();
+}
+
+MapObject.prototype.howFarIs = function(x, y){
+    var position = this.mesh.position;
+    var distance = Math.sqrt(Math.pow((x-position.x), 2)+Math.pow((y-position.y), 2));
+    return Math.round(distance);
+}
+
+MapObject.prototype.reportRelativeDirection = function(x, y, what){
+    var position = this.mesh.position;
+    var hor = "prawo";
+    if(position.x<x){
+        hor = "lewo";
+    }
+    var ver = "górę";
+    if(position.y<y){
+        ver = "dół";
+    }
+    say(what + " jest na " + hor + ", na " + ver + " ode mnie.");
+}
+
+MapObject.prototype.findClosestMeme = function(){
+    var min_meme = controller.getClosestMeme();
+    say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");
+    this.reportRelativeDirection(min_meme.x, min_meme.y, min_meme.acceptable_names[0]);
     dialog_controller.listen();
 }

@@ -87,6 +87,19 @@ var meme_collection = new function(){
 		return null;
 	}
 
+	this.getMemeByName = function(meme_name){
+		meme_name = meme_name.toLowerCase();
+		for(var i in this.collection){
+			var meme = this.collection[i];
+			for(var j in meme.acceptable_names){
+				if(meme_name == meme.acceptable_names[j].toLowerCase()){
+					return meme;
+				}
+			}
+		}
+		return null;
+	}
+
 	function randomCoor(){
 		return Math.ceil(Math.random()*map_size);
 	}
@@ -98,12 +111,13 @@ var meme_collection = new function(){
 			do{
 				var coor_x = randomCoor();
 				var coor_y = randomCoor();
-			}while(!MapModel.isObstacle(coor_x, coor_y));
+			}while(MapModel.isObstacle(coor_x, coor_y).obstacle);
 			console.log(coor_x, coor_y);
 			MapModel.objectMap[coor_x][coor_y].push("meme/" + meme.machine_name);
 			//alert('pushing meme/' + meme.machine_name);
 			//alert("read: " +MapModel.objectMap[coor_x][coor_y][0] );
 			meme.init(coor_x, coor_y, "meme");
+			//object_storage.registerObject(meme);
 			app.addObject(meme);
 		}
 	}

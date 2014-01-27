@@ -91,7 +91,6 @@ $(document).ready(function(){
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania - musi zwracać listę memów, które zauważył + czy zobaczył router - albo niech zama o tym opodwiada, we wnętrzu funkcji
             controller.main_hero.lookAround(4);
-            say("Zauważyłem następujące memy:, możesz kazać mi podejść do jednego z nich i go podnieść.");
             say ("Zauważyłem router. Pomyśl czy to nie czas, żeby wysłać jakieś memey do Interentu.");
         }),
 
@@ -103,6 +102,16 @@ $(document).ready(function(){
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?)", function(){
             //idź do najbliższego mema
             say("Szukam, węszę, gdzie są memy?");
+        }),
+
+        new scheme("gdzie jest mem #mem", function(meme_name){
+            var meme = controller.getMemeByName(meme_name);
+            say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
+            dialog_controller.listen();
+        }),
+
+        new scheme("(gdzie|jaki|który) jest najbliższy mem?", function(){
+            controller.main_hero.findClosestMeme();
         }),
 
         new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz)", function(){
