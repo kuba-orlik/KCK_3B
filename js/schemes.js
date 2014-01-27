@@ -34,7 +34,10 @@ $(document).ready(function(){
             }
             dialog_controller.listen();
         }),
-        new scheme(verbs.go + " (o )?#ile " + nouns.steps + "? (w|do|na) #kierunek", function(ile, kierunek){
+        new scheme(verbs.go + " (o )?(pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
+            controller.main_hero.parseTranslate('jeden', kierunek);
+        }),
+		new scheme(verbs.go + " (o )?#ile " + nouns.steps + "? (w|do|na) #kierunek", function(ile, kierunek){
             controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
@@ -46,9 +49,6 @@ $(document).ready(function(){
         }),
         new scheme("zr(ó|o)b #ile (kroki|krok(ó|o)w|krok) (w|na|do) #kierunek", function(ile, kierunek){
             controller.main_hero.parseTranslate(ile, kierunek);
-        }),
-        new scheme(verbs.go + " (o )?(pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
-            controller.main_hero.parseTranslate('jeden', kierunek);
         }),
         new scheme("(elo|witaj|siema|joł|cześć|czesc|hej)", function(){
             say('Hej, nadszedł czas poszukiwań memów.');
@@ -72,10 +72,10 @@ $(document).ready(function(){
             var coords = parseDirection(kierunek);
             if(coords!=null){
                 if(coords.y < 0) coords. y = coords.y - 1;
-				else coords.y = coords.y + 1;
+				else if (coords.y > 0) = coords.y + 1;
                 if (coords.x < 0) coords.x = coords.x - 1;
-				else coords.x = coords.x + 1;
-                controller.main_hero.translate_steps(coords.x, coords.y);
+				else if (coords.x > 0) = coords.x + 1;
+				controller.main_hero.translate(coords.x, coords.y);
 				}
 		}),
         new scheme("dance for me", function(){
