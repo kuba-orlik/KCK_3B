@@ -313,6 +313,16 @@ dialog = new function(){
 		var apology = apologies[Math.floor(Math.random()*apologies.length)];
 		var content = contents[Math.floor(Math.random()*contents.length)];
 		this.say(apology + " " + content);
+
+
+	this.need_help = function(){
+		say("'Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je powrotem do Internetu.'")
+
+
+	}
+
+
+
 	}
 
 	this.log = function(text){
