@@ -401,6 +401,7 @@ MapObject.prototype.lookAround = function(radius){
     console.log('look around');
     var current_position = this.mesh.position;
     var surroundings = MapModel.getObjects(current_position.x, current_position.y, radius);
+    var objects = surroundings.objects;
     var summary = surroundings.summary;
     //console.log(summary);
     if(Object.size(summary)==0){
@@ -420,6 +421,19 @@ MapObject.prototype.lookAround = function(radius){
                     to_say+= summary[i] + " drzew.";
                 }
                 say(to_say);
+                break;
+            case "meme":
+                if(summary[i]){
+                    var   to_say = "OMG widzę mema";                    
+                }else{
+                    var to_say = "OMG widzę memy";
+                }
+                say(to_say);
+                for(var i in objects){
+                    if(objects[i].type=="meme"){
+                        say("W pobliżu grasuje mem '" + objects[i].acceptable_names[0] + "'");                           
+                    }
+                }
                 break;
         }
     }
