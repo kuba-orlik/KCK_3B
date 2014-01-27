@@ -221,6 +221,24 @@ function parseNumber(ile){
 			case "piec":
 				how_much = 5;
 				break;
+			case "szesc":
+				how_much = 6;
+				break;
+			case "sześć":
+				how_much = 6;
+				break;
+			case "siedem":
+				how_much = 7;
+				break;
+			case "osiem":
+				how_much = 8;
+				break;
+			case "dziewięć":
+				how_much = 9;
+				break;
+			case "dziewiec":
+				how_much = 9;
+				break;
 			default:
 				say("<i>'" + ile + "'</i>? Nie wiem, co to za liczba.");
 				return null;
