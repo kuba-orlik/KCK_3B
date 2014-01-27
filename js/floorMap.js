@@ -60,12 +60,45 @@ MapModel.isObstacle = function(x,y){
 	//console.log(floor, objects);
 }
 
-MapModel.getObjects(center_x, center_y, radius){
+MapModel.objectFromString = function(string){
+	switch(string){
+		case "luigi":
+			return controller.main_hero;
+			break;
+		case "tree":
+			return {
+				type: 'tree'
+			}
+			break;
+	}
+	if(string.indexOf('meme/')==0){
+		var meme_name = string.match(/(?:meme\/)(.*)/)[1];
+		return meme_collection.getMemeByMachineName(meme_name);
+	}
+}
+
+MapModel.getObjects = function(center_x, center_y, radius){
+	var objects_total = [];
 	for(var i=center_x-radius; i<=center_x+radius; i++){
 		for(var j=center_y-radius; j<=center_y+radius; j++){
 			var objects = this.objectMap[i][j];
-			console.log(objects);
+			for(var k in objects){
+				objects_total.push(MapModel.objectFromString(objects[k]));
+			}
 		}
+	}
+	var summary = {};
+	for(var i in objects_total){
+		var type = objects_total[i].type;
+		if(summary.type==undefined){
+			summary.type=1;
+		}else{
+			summary.type++;
+		}
+	}
+	return {
+		objects: objects_total,
+		summary: summary
 	}
 }
 

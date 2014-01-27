@@ -76,6 +76,7 @@ $(document).ready(function(){
 
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania
+<<<<<<< HEAD
         }
 
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? router(a)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? router(a)?", function(){
@@ -86,5 +87,8 @@ $(document).ready(function(){
             //idź do najbliższego mema
         }
 
+=======
+        })
+>>>>>>> 970ee3e1187bcee7b11f78948abb879488036c5e
     ];    
 });
