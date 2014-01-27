@@ -321,6 +321,7 @@ MapObject.prototype.translate = function(x, y){
     CameraModel.updatePosition();
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
+	dialog_controller.listen();
 }
 
 
