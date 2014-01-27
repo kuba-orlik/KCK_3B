@@ -71,7 +71,7 @@ $(document).ready(function(){
         }),
         new scheme("(help|pomoc(y)?|Nie wiem co (robi(c|ć)|zrobi(ć|c))|co dalej(\?)?|(i)? co teraz(\?)?)|(panie )?(premierze )?jak żyć(panie )?(premierze )?", function(){
             say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je z powrotem do Internetu.');          
-        })
+        }),
 
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania
