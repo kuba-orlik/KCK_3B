@@ -205,7 +205,11 @@ MapObject.prototype.init = function(x, y, type){
             var textureURL = "tiles/samawoda.png";
             break;
         case "meme":
+            var width = 1;
+            var height = 1;
+            var att = 0;
             var textureURL = "tiles/"  + this.tile;
+            break;
             
     }
     object_storage.registerObject(this);
@@ -424,7 +428,7 @@ MapObject.prototype.lookAround = function(radius){
                 say(to_say);
                 break;
             case "meme":
-                if(summary[i]){
+                if(summary[i]==1){
                     var   to_say = "OMG widzę mema";                    
                 }else{
                     var to_say = "OMG widzę memy";
@@ -463,6 +467,6 @@ MapObject.prototype.reportRelativeDirection = function(x, y, what){
 MapObject.prototype.findClosestMeme = function(){
     var min_meme = controller.getClosestMeme();
     say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");
-    this.reportRelativeDirection(min_meme.x, min_meme.y);
+    this.reportRelativeDirection(min_meme.x, min_meme.y, min_meme.acceptable_names[0]);
     dialog_controller.listen();
 }
