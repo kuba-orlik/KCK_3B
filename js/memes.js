@@ -2,6 +2,8 @@ Meme = function(machine_name, tile, acceptable_names){
 	this.machine_name = machine_name;
 	this.tile = tile;
 	this.acceptable_names = acceptable_names;
+
+	this.type="meme";
 }
 
 Meme.prototype = MapObject;
@@ -70,3 +72,16 @@ var memes = [
 
 	]),
 ]
+
+var meme_collection = new function(){
+	this.collection = memes;
+
+	this.getMemeByMachineName = function(machine_name){
+		for(var i in this.collection){
+			if(this.collection[i].machine_name==machine_name){
+				return this.collection[i];
+			}
+		}
+		return null;
+	}
+}
