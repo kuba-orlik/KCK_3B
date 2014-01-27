@@ -285,18 +285,20 @@ MapObject.prototype.update = function(){
         case 'luigi':
             this.mesh.position.z = 0.3;
     }
-    var main_hero = controller.main_hero;
-    var hero_position = main_hero.mesh.position;
-    var distance = Math.sqrt(Math.pow((hero_position.x-this.x), 2)+Math.pow((hero_position.y-this.y), 2))
-    if(distance>visibility){
-        var opacity = 0
-    }else{
-        var opacity = 1-distance/visibility;
+    if(this.type!="luigi"){
+        var main_hero = controller.main_hero;
+        var hero_position = main_hero.mesh.position;
+        var distance = Math.sqrt(Math.pow((hero_position.x-this.x), 2)+Math.pow((hero_position.y-this.y), 2))
+        if(distance>visibility){
+            var opacity = 0
+        }else{
+            var opacity = 1-distance/visibility;
+        }
+        //this.material =  new THREE.MeshPhongMaterial( { map: this.texture, transparent:true, color: 0x000000 } );
+        //this.material.color = 0x000000;
+        //this.material.color = 0xffffff;
+        this.material.color = new THREE.Color(getGray(opacity));        
     }
-    //this.material =  new THREE.MeshPhongMaterial( { map: this.texture, transparent:true, color: 0x000000 } );
-    //this.material.color = 0x000000;
-    //this.material.color = 0xffffff;
-    this.material.color = new THREE.Color(getGray(opacity));
 }
 
 MapObject.prototype.setPos = function(x, y){
@@ -400,13 +402,16 @@ MapObject.prototype.lookAround = function(radius){
     var summary = surroundings.summary;
     //console.log(summary);
     if(Object.size(summary)==0){
-        say("nie widzę nic ciekawego dookoła");
+        say("Nie widzę nic ciekawego dookoła");
+    }else{
+        say("W pobliżu widzę:...");        
     }
     for(var i in summary){
         var type=i;
         switch(type){
             case "tree":
-                var to_say = "Widzę ";
+                //var to_say = "Widzę ";
+                var to_say = "";
                 if(summary[i]==1){
                     to_say+="jedno drzewo."
                 }else{

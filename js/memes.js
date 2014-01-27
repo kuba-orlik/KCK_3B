@@ -6,7 +6,7 @@ Meme = function(machine_name, tile, acceptable_names){
 	this.type="meme";
 }
 
-Meme.prototype = MapObject;
+Meme.prototype = new MapObject();
 
 var memes = [
 	new Meme("batman", "batman.png", [
@@ -83,5 +83,22 @@ var meme_collection = new function(){
 			}
 		}
 		return null;
+	}
+
+	function randomCoor(){
+		return Math.ceil(Math.random()*map_size);
+	}
+
+	this.putOnMap = function(){
+		for(var i in this.collection){
+			var meme = this.collection[i];
+			do{
+				var coor_x = randomCoor();
+				var coor_y = randomCoor();
+			}while(!MapModel.isObstacle(coor_x, coor_y));
+			MapModel.objectMap[coor_x][coor_y].push("meme/" + meme.machine_name);
+			meme.init(coor_x, coor_y);
+			app.add(meme);
+		}
 	}
 }

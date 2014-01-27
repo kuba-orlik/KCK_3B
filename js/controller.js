@@ -316,8 +316,13 @@ dialog = new function(){
 
 
 	this.need_help = function(){
-		say("'Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je powrotem do Internetu.'")
 
+		var advices = [
+		"Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je z powrotem do Internetu.",
+		"Musimy znaleźć memy, wziąć je i wrzucić do routera, żeby trafiły z powrotem do Internetu.",
+		"Memy czekają na ratunek, trzeba je znaleźć, zabrać do routera i uratować Internet"
+		];
+		this.say(advices[Math.floor(Math.random()*advices.length)]);
 
 	}
 
