@@ -440,3 +440,29 @@ MapObject.prototype.lookAround = function(radius){
     }
     dialog_controller.listen();
 }
+
+MapObject.prototype.howFarIs = function(x, y){
+    var position = this.mesh.position;
+    var distance = Math.sqrt(Math.pow((x-position.x), 2)+Math.pow((y-position.y), 2));
+    return Math.round(distance);
+}
+
+MapObject.prototype.reportRelativeDirection = function(x, y, what){
+    var position = this.mesh.position;
+    var hor = "prawo";
+    if(position.x<x){
+        hor = "lewo";
+    }
+    var ver = "górę";
+    if(position.y<y){
+        ver = "dół";
+    }
+    say(what + " jest na " + hor + ", na " + ver + " ode mnie.");
+}
+
+MapObject.prototype.findClosestMeme = function(){
+    var min_meme = controller.getClosestMeme();
+    say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");
+    this.reportRelativeDirection(min.meme.x, min.meme.y);
+    dialog_controller.listen();
+}

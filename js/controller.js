@@ -6,6 +6,30 @@ var controller = new function(){
 		self.main_hero = object_storage.objects.luigi[0];
 	}
 
+	this.getMemeByName = function(meme_name){
+		var meme = meme_collection.getMemeByName(meme_name);
+		if(meme==null){
+			say("nie wiem, co to za mem: <i>" + meme_name + "</i>");
+			dialog_controller.listen();
+		}
+		return meme;
+	}
+
+	this.getClosestMeme = function(){
+		var memes = object_storage.objects.meme;
+	    var min_dist = Infinity;
+	    min_meme = null;
+	    for(var i in memes){
+	        var meme = memes[i];
+	        var dist = this.main_hero.howFarIs(meme.x, meme.y);
+	        if(dist<min_dist){
+	            min_dist = dist;
+	            min_meme = meme;
+	        }
+	    }
+	    return min_meme;
+	}
+
 }
 
 var Parser = {}
