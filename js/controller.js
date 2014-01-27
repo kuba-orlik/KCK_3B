@@ -130,6 +130,18 @@ function parseDirection(kierunek){
 		case "wschod":
 			coord_x=1;
 			break;
+		case "prosto":
+			coord_y=1;
+			break;
+		case "wprost":
+			coord_y=1;
+			break;
+		case "naprzód":
+			coord_y=1;
+			break;
+		case "naprzod":
+			coord_y=1;
+			break;
 		case "górę":
 			coord_y=1;
 			break;
@@ -167,6 +179,12 @@ function parseDirection(kierunek){
 			coord_y=-1;
 			break;
 		case "dolu":
+			coord_y=-1;
+			break;
+		case "tylu":
+			coord_y=-1;
+			break;
+		case "tyłu":
 			coord_y=-1;
 			break;
 		case "południe":
