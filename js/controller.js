@@ -284,8 +284,8 @@ scheme_collection = new function(){
 		new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
 			controller.main_hero.parseTranslate('jeden', kierunek);
 		}),
-        new scheme("(elo|witaj|siema|joł|cześć|czesc)", function(){
-        	say('Dzień dobry. Mamy dzisiaj piękny dzień');
+        new scheme("(elo|witaj|siema|joł|cześć|czesc|hej)", function(){
+        	say('Hej, nadszedł czas poszukiwań memów.');
         	dialog_controller.listen();
         }),
         new scheme("(opowiedz mi (z|ż)art|tell (me|a|me a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|karny suchar|Krzysiu Weiss)", function(){
