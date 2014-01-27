@@ -19,7 +19,7 @@ $(document).ready(function(){
                 controller.main_hero.translate_steps(coords.x, coords.y);               
             }
         }),
-        new scheme(verbs.go + " (jak )?(najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na)? #kierunek (jak (tylko )?si(ę|e) da|jak to (tylko )?mo(z|ż)liwe)?", function(kierunek){
+        new scheme(verbs.go + " (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na)? #kierunek (jak (tylko)? si(ę|e) da|jak to (tylko)? mo(z|ż)liwe)?", function(kierunek){
             controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
         new scheme("nasza notacja #parametr", function(parametr){
@@ -37,7 +37,7 @@ $(document).ready(function(){
         new scheme(verbs.go + " (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na)? #kierunek", function(kierunek){
             controller.main_hero.parseTranslate('jeden', kierunek);
         }),
-		new scheme(verbs.go + " (o)? #ile " + nouns.steps + "?(w|do|na)? #kierunek", function(ile, kierunek){
+		new scheme(verbs.go + " (o)? #ile " + nouns.steps + "? (w|do|na)? #kierunek", function(ile, kierunek){
             controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
