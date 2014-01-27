@@ -60,11 +60,13 @@ $(document).ready(function(){
                 dialog_controller.listen();
             })
         }),
-        new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, " + verbs.go + " (si(ę|e)|o|si(ę|e) o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
-            alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+        new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, (i)?" + verbs.go + "? (si(ę|e)|o|si(ę|e) o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+            controller.main_hero.parseTranslate(ilex, kierunekx);
+            controller.main_hero.parseTranslate(iley, kieruneky);
         }),
-        new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
-            alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+        new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, (a)? (nast(ę|e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+            controller.main_hero.parseTranslate(ilex, kierunekx);
+            controller.main_hero.parseTranslate(iley, kieruneky);
         }),
         new scheme("dance for me", function(){
             say("ok, you got it, babe");
@@ -76,14 +78,19 @@ $(document).ready(function(){
 
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania
+            say("Co ja pacze...");
         }),
 
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? router(a)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? router(a)?)", function(){
             //idź do najbliższego routera
+            say("Już lecę, jak na skrzydłach.");
         }),
+
 
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?)", function(){
             //idź do najbliższego mema
+            say("Szukam, węszę, gdzie są memy?");
         })
+
     ];    
 });
