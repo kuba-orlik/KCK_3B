@@ -53,10 +53,10 @@ var memes = [
 		"mickey mouse",
 		"mouse",
 		"myszka miki",
-		"miki"
-		"myszkę miki"
-		"mikiego"
-		"mickey'ego"
+		"miki",
+		"myszkę miki",
+		"mikiego",
+		"mickey'ego",
 		"mickey'a",
 		"myszke miki"
 	]),

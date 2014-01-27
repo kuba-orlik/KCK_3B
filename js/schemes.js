@@ -75,6 +75,6 @@ $(document).ready(function(){
 
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania
-        }
+        })
     ];    
 });
