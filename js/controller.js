@@ -304,6 +304,11 @@ scheme_collection = new function(){
 			say("ok, you got it, babe");
 			window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
 		})
+
+		new scheme("(help|pomoc|Nie wiem co (robi(c|ć)|zrobi(ć|c))")
+			say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów');
+
+
     ];
 
     this.user_input = function(input){
