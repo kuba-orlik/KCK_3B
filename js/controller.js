@@ -339,7 +339,10 @@ dialog = new function(){
 
 	this.container_selector = "#dialog_content";
 
+	this.not_understood_combo = 0;
+
 	this.didnt_understand = function(){
+		this.not_understood_combo+=1;
 		var apologies = [
 			"Sorki,",
 			"Wybacz, ale",
@@ -354,7 +357,11 @@ dialog = new function(){
 		]
 		var apology = apologies[Math.floor(Math.random()*apologies.length)];
 		var content = contents[Math.floor(Math.random()*contents.length)];
-		this.say(apology + " " + content);
+		this.say(apology + " " + content);			
+		if(this.not_understood_combo>4){
+			this.need_help();
+		}		
+	}
 
 
 	this.need_help = function(){
@@ -368,9 +375,6 @@ dialog = new function(){
 
 	}
 
-
-
-	}
 
 	this.log = function(text){
 		var entry = new dialog_entry('ja', text);
