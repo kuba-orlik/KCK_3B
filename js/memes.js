@@ -6,7 +6,7 @@ Meme = function(machine_name, tile, acceptable_names){
 	this.type="meme";
 }
 
-Meme.prototype = MapObject;
+Meme.prototype = new MapObject();
 
 var memes = [
 	new Meme("batman", "batman.png", [
@@ -102,5 +102,3 @@ var meme_collection = new function(){
 		}
 	}
 }
-
-meme_collection.putOnMap();
