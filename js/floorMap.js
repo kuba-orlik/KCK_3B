@@ -90,10 +90,10 @@ MapModel.getObjects = function(center_x, center_y, radius){
 	var summary = {};
 	for(var i in objects_total){
 		var type = objects_total[i].type;
-		if(summary.type==undefined){
-			summary.type=1;
+		if(summary[type]==undefined){
+			summary[type]=1;
 		}else{
-			summary.type++;
+			summary[type]++;
 		}
 	}
 	return {
