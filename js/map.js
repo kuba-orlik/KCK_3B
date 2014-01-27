@@ -314,3 +314,7 @@ MapObject.prototype.goAsFarAsPossible = function(direction){
         }        
     }
 }
+
+MapObject.prototype.lookAround = function(radius){
+    
+}

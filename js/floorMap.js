@@ -60,6 +60,14 @@ MapModel.isObstacle = function(x,y){
 	//console.log(floor, objects);
 }
 
+MapModel.getObjects(center_x, center_y, radius){
+	for(var i=center_x-radius; i<=center_x+radius; i++){
+		for(var j=center_y-radius; j<=center_y+radius; j++){
+			var objects = this.objectMap[i][j];
+			console.log(objects);
+		}
+	}
+}
 
 var CameraModel = new function(){
 	this.position= {
