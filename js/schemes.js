@@ -68,7 +68,7 @@ $(document).ready(function(){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
-		new scheme("(skacz|przeskocz|skocz) (w|do|na) #kierunek", function(kierunek){
+		new scheme("(skacz|przeskocz|skocz) (w|do|na)? #kierunek", function(kierunek){
             var coords = parseDirection(kierunek);
             if(coords!=null){
                 if(coords.y < 0) coords. y = coords.y - 1;
