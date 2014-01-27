@@ -78,11 +78,11 @@ $(document).ready(function(){
             //tutaj funkcja rozglądania
         }),
 
-        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? router(a)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? router(a)?", function(){
+        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? router(a)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? router(a)?)", function(){
             //idź do najbliższego routera
         }),
 
-        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?", function(){
+        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?)", function(){
             //idź do najbliższego mema
         })
     ];    
