@@ -463,6 +463,6 @@ MapObject.prototype.reportRelativeDirection = function(x, y, what){
 MapObject.prototype.findClosestMeme = function(){
     var min_meme = controller.getClosestMeme();
     say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");
-    this.reportRelativeDirection(min.meme.x, min_meme.y);
+    this.reportRelativeDirection(min_meme.x, min_meme.y);
     dialog_controller.listen();
 }
