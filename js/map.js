@@ -1,5 +1,13 @@
-﻿
+﻿Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 		
+var visibility = 8;
+
 var tree_offset = 0.65;
 
 
@@ -92,6 +100,8 @@ Square.prototype = new Sim.Object();
 
 Square.prototype.init = function(x, y){   
     var type=MapModel.floorMap[x][y];
+    this.x = x;
+    this.y = y;
     var reflectivity = 0;    
     switch(type){
         case "grass":
@@ -110,14 +120,20 @@ Square.prototype.init = function(x, y){
     //console.log(earthmap);
     var geometry = new THREE.PlaneGeometry(this.size, this.size);
     var texture = THREE.ImageUtils.loadTexture(earthmap);
-    var material = new THREE.MeshPhongMaterial( { map: texture, color: 0xffffff, reflectivity: reflectivity } );
+    var material = new THREE.MeshPhongMaterial( { transparent: true, opacity: 1, map: texture, color: 0xffffff, reflectivity: reflectivity } );
     //material.depthWrite = true;
     var mesh = new THREE.Mesh( geometry, material ); 
 
     mesh.translateX(x*this.size);
     mesh.translateY(y*this.size);
+    this.mesh = mesh;
+    this.material = material;
     //mesh.rotation.x = Math.round(-45 * 100 * Math.PI /180)/100;
     //mesh.renderDepth = y*block_size;
+
+    //this.original_texture = 
+
+
 
     this.setObject3D(mesh); 
 }
@@ -125,10 +141,16 @@ Square.prototype.init = function(x, y){
 
 Square.prototype.update = function()
 {
-    // "I feel the Earth move..."
-    //this.object3D.rotation.y += 0.1;
-
-    //Sim.Object.prototype.update.call(this);
+    var main_hero = controller.main_hero;
+    var hero_position = main_hero.mesh.position;
+    var distance = Math.sqrt(Math.pow((hero_position.x-this.x), 2)+Math.pow((hero_position.y-this.y), 2))
+    if(distance>visibility){
+        var opacity = 0
+    }else{
+        var opacity = 1-distance/visibility;
+    }
+    this.material.opacity = opacity;
+    //if(Math.abs(hero.position.x-this.mesh.position.x)>5)
 }
 
 // Custom Sun class
@@ -159,6 +181,8 @@ MapObject = function(){
 MapObject.prototype = new Sim.Object();
 
 MapObject.prototype.init = function(x, y, type){
+    this.x = x;
+    this.y = y;
     var register = false;
     this.type=type;
     switch(type){
@@ -188,8 +212,11 @@ MapObject.prototype.init = function(x, y, type){
     //alert(textureURL);
     var geometry = new THREE.PlaneGeometry(width, height);
     var texture = THREE.ImageUtils.loadTexture(textureURL);
-    var material = new THREE.MeshPhongMaterial( { map: texture, transparent:true } );
+    var material = new THREE.MeshPhongMaterial( { map: texture, transparent:true, color: 0xffffff } );
     //material.depthWrite = false;
+    this.texture = texture;
+
+    this.material = material;
 
     var mesh = new THREE.Mesh( geometry, material ); 
 
@@ -211,6 +238,45 @@ MapObject.prototype.init = function(x, y, type){
     this.setObject3D(mesh); 
 }
 
+function getGray(ratio){
+    ratio = Math.floor(ratio*10)/10;
+    switch(ratio){
+        case 0:
+            return 0x000000;
+            break;
+        case 0.1:
+            return 0x111111;
+            break;
+        case 0.2:
+            return 0x222222;
+            break;
+        case 0.3:
+            return 0x333333;
+            break;
+        case 0.4:
+            return 0x444444;
+            break;
+        case 0.5:
+            return 0x666666;
+            break;
+        case 0.6:
+            return 0x888888;
+            break;
+        case 0.7:
+            return 0xaaaaaa;
+            break;
+        case 0.8:
+            return 0xcccccc;
+            break;
+        case 0.9:
+            return 0xeeeeee;
+            break;
+        case 1:
+            return 0xffffff;
+            break;
+    }
+}
+
 MapObject.prototype.update = function(){
     switch(this.type){
         case 'tree':
@@ -219,6 +285,18 @@ MapObject.prototype.update = function(){
         case 'luigi':
             this.mesh.position.z = 0.3;
     }
+    var main_hero = controller.main_hero;
+    var hero_position = main_hero.mesh.position;
+    var distance = Math.sqrt(Math.pow((hero_position.x-this.x), 2)+Math.pow((hero_position.y-this.y), 2))
+    if(distance>visibility){
+        var opacity = 0
+    }else{
+        var opacity = 1-distance/visibility;
+    }
+    //this.material =  new THREE.MeshPhongMaterial( { map: this.texture, transparent:true, color: 0x000000 } );
+    //this.material.color = 0x000000;
+    //this.material.color = 0xffffff;
+    this.material.color = new THREE.Color(getGray(opacity));
 }
 
 MapObject.prototype.setPos = function(x, y){
@@ -316,5 +394,27 @@ MapObject.prototype.goAsFarAsPossible = function(direction){
 }
 
 MapObject.prototype.lookAround = function(radius){
-    
+    console.log('look around');
+    var current_position = this.mesh.position;
+    var surroundings = MapModel.getObjects(current_position.x, current_position.y, radius);
+    var summary = surroundings.summary;
+    //console.log(summary);
+    if(Object.size(summary)==0){
+        say("nie widzę nic ciekawego dookoła");
+    }
+    for(var i in summary){
+        var type=i;
+        switch(type){
+            case "tree":
+                var to_say = "Widzę ";
+                if(summary[i]==1){
+                    to_say+="jedno drzewo."
+                }else{
+                    to_say+= summary[i] + " drzew.";
+                }
+                say(to_say);
+                break;
+        }
+    }
+    dialog_controller.listen();
 }
