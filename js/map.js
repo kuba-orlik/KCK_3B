@@ -330,7 +330,7 @@ MapObject.prototype.translate = function(x, y){
     
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
-	
+		var position = this.mesh.position;
         var obstacle = MapModel.isObstacle(position.x+step_x, position.y+step_y);
         console.log(obstacle);
         if(!obstacle.obstacle){
