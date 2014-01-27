@@ -1,0 +1,105 @@
+var verbs = {
+	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z))"
+}
+
+var nouns = {
+	steps : "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kwadratów|kwadratow|kratki|kratk(e|ę))"
+}
+
+scheme_collection = new function(){
+
+    this.collection = [
+        new scheme(verbs.go + " (w|do|na) #kierunek", function(kierunek){        	
+        	var amount = Math.ceil(Math.random()*3);
+        	var coords = parseDirection(kierunek);
+        	if(coords!=null){
+	        	coords.y = coords.y*amount;
+	        	coords.x = coords.x*amount;
+	            controller.main_hero.translate_steps(coords.x, coords.y);        		
+        	}
+        }),
+        new scheme(verbs.go + " (się|sie|jak|się jak|sie jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na) #kierunek (jak (tylko)? si(ę|e) da|jak to (tylko)? mo(z|ż)liwe)?", function(kierunek){
+        	controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
+        }),
+        new scheme("nasza notacja #parametr", function(parametr){
+        	say(parametr);
+        	dialog_controller.listen();
+        }),
+        new scheme("nie " + verbs.go + " (w #kierunek)?.*", function(kierunek){
+        	if(kierunek!=undefined){
+        		say("Dobrze, nie pójdę w " + kierunek);        		
+        	}else{
+        		say("Dobrze, nie pójdę. TAK BĘDĘ STAŁ")
+        	}
+        	dialog_controller.listen();
+        }),
+		new scheme(verbs.go + " (się|o|się o)? #ile " + nouns.steps + "? (w|do|na) #kierunek", function(ile, kierunek){
+			controller.main_hero.parseTranslate(ile, kierunek);
+        }),
+        new scheme("gdzie jeste(s|ś)?", function(){
+			say("Jestem na polu (x = " + controller.main_hero.mesh.position.x + ", y = " + controller.main_hero.mesh.position.y + ")")
+        	dialog_controller.listen();
+        }),
+        new scheme(verbs.go + " (si(ę|e))? (w|do|na) #kierunek (o)? #ile " + nouns.steps + "?", function(kierunek, ile){
+			controller.main_hero.parseTranslate(ile, kierunek);
+        }),
+        new scheme("zr(ó|o)b #ile (kroki|krok(ó|o)w|krok) (w|na|do) #kierunek", function(ile, kierunek){
+        	controller.main_hero.parseTranslate(ile, kierunek);
+        }),
+		new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na) #kierunek", function(kierunek){
+			controller.main_hero.parseTranslate('jeden', kierunek);
+		}),
+        new scheme("(elo|witaj|siema|joł|cześć|czesc|hej)", function(){
+        	say('Hej, nadszedł czas poszukiwań memów.');
+        	dialog_controller.listen();
+        }),
+        new scheme("(opowiedz mi (z|ż)art|tell (me|a|me a)? joke|rozbaw mnie|jest mi smutno|smutno mi|walnij suchara|corny joke|karny suchar|Krzysiu Weiss)", function(){
+        	$.get('http://api.icndb.com/jokes/random', function(data){
+        		say("Ok, znasz ten angielski żart? <i>" + data.value.joke + "</i>");
+        		dialog_controller.listen();
+        	})
+        }),
+		new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, " + verbs.go + " (si(ę|e)|o|si(ę|e) o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+            alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+		}),
+		new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+            alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+		}),
+		new scheme("dance for me", function(){
+			say("ok, you got it, babe");
+			window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
+		})
+
+		new scheme("(help|pomoc|Nie wiem co (robi(c|ć)|zrobi(ć|c))")
+			say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów');
+
+
+    ];
+
+    this.user_input = function(input){
+    	var listen = dialog_controller.listen;
+    	input = input.toLowerCase();
+    	//input+=" ";
+    	//console.log("user_input:" + input);
+    	//console.log(this.collection);
+    	console.log('looking for a match...');
+    	var found = false;
+        for(var i in this.collection){
+            var scheme = this.collection[i];
+            console.log(scheme.regex);
+            if(scheme.matches(input)){
+            	found = true;
+            	console.log('found match: ', scheme);
+                scheme.execute(input);
+                break;
+            }
+        }
+        if(!found){
+        	console.log('none found');
+        	dialog.didnt_understand();
+        	//dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
+        	dialog_controller.listen();
+        }
+    }
+
+}

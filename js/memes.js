@@ -47,5 +47,10 @@ var memes = [
 		"mouse",
 		"myszka miki",
 		"miki"
-	])
+	]),
+	new Meme("nyan", "nyan.png", [
+		"nyan cat",
+		"cat",
+		"nyan"
+	]),
 ]
