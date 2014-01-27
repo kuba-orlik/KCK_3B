@@ -57,6 +57,8 @@ for(var i = map_size; i>=1; i--){
 }
 objectMap[15][15].push('luigi');
 
+
+
 MapModel.objectMap = objectMap;
 
 
