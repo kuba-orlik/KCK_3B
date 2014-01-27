@@ -60,11 +60,11 @@ $(document).ready(function(){
                 dialog_controller.listen();
             })
         }),
-        new scheme(verbs.go + " (o)? #ilex " + nouns.steps + "?(w|do|na)? #kierunekx, (i)?" + verbs.go + "?(o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+        new scheme(verbs.go + " (o)? #ilex " + nouns.steps + "? (w|do|na)? #kierunekx, " + verbs.go + "? (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
-        new scheme(verbs.go + " (o)? #ilex " + nouns.steps + "?(w|do|na)? #kierunekx, (a)? (nast(ę|e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+        new scheme(verbs.go + " (o)? #ilex " + nouns.steps + "? (w|do|na)? #kierunekx, (a)? (nast(ę|e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
