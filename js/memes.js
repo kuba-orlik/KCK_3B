@@ -4,7 +4,7 @@ Meme = function(machine_name, tile, acceptable_names){
 	this.acceptable_names = acceptable_names;
 }
 
-meme.prototype = MapObject;
+Meme.prototype = MapObject;
 
 var memes = [
 	new Meme("batman", "batman.png", [

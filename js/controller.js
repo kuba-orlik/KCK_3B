@@ -299,6 +299,10 @@ scheme_collection = new function(){
 		}),
 		new scheme(verbs.go + " (si(ę|e)|o|si(ę|e) o)? #ilex " + nouns.steps + "? (w|do|na) #kierunekx, (a)? (nast(ę}e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             alert('idz w ' + ilex + kierunekx + iley + kieruneky);
+		}),
+		new scheme("dance for me", function(){
+			say("ok, you got it, babe");
+			window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
 		})
     ];
 
