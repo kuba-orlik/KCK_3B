@@ -1,5 +1,6 @@
 var verbs = {
 	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z))"
+    find: "(szukaj|znajd(z|ź))"
 }
 
 var nouns = {
@@ -70,11 +71,20 @@ $(document).ready(function(){
             window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
         }),
         new scheme("(help|pomoc(y)?|Nie wiem co (robi(c|ć)|zrobi(ć|c))|co dalej(\?)?|(i)? co teraz(\?)?)|(panie )?(premierze )?jak żyć(panie )?(premierze )?", function(){
-            say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je z powrotem do Internetu.');          
+            say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je powrotem do Internetu.');          
         }),
 
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania
         }
+
+        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? router(a)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? router(a)?", function(){
+            //idź do najbliższego routera
+        }
+
+        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?", function(){
+            //idź do najbliższego mema
+        }
+
     ];    
 });
