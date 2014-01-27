@@ -107,6 +107,7 @@ $(document).ready(function(){
         new scheme("gdzie jest mem #mem", function(meme_name){
             var meme = controller.getMemeByName(meme_name);
             say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
+            dialog_controller.listen();
         }),
 
         new scheme("(gdzie|jaki|który) jest najbliższy mem?", function(){
