@@ -78,18 +78,18 @@ MapModel.objectFromString = function(string){
 }
 
 MapModel.getObjects = function(center_x, center_y, radius){
-	var objects = [];
+	var objects_total = [];
 	for(var i=center_x-radius; i<=center_x+radius; i++){
 		for(var j=center_y-radius; j<=center_y+radius; j++){
 			var objects = this.objectMap[i][j];
 			for(var k in objects){
-				result.push(MapModel.objectFromString(objects[k]));
+				objects_total.push(MapModel.objectFromString(objects[k]));
 			}
 		}
 	}
 	var summary = {};
-	for(var i in objects){
-		var type = objects[i].type;
+	for(var i in objects_total){
+		var type = objects_total[i].type;
 		if(summary.type==undefined){
 			summary.type=1;
 		}else{
@@ -97,8 +97,8 @@ MapModel.getObjects = function(center_x, center_y, radius){
 		}
 	}
 	return {
-		objects: objects,
-		summary: sumary
+		objects: objects_total,
+		summary: summary
 	}
 }
 
