@@ -166,6 +166,9 @@ function parseDirection(kierunek){
 		case "przód":
 			coord_y=1;
 			break;
+		case "przod":
+			coord_y=1;
+			break;
 		case "przodu":
 			coord_y=1;
 			break;

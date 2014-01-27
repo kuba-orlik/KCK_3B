@@ -71,10 +71,10 @@ $(document).ready(function(){
 		new scheme("(skacz|przeskocz|skocz) (w|do|na) #kierunek", function(kierunek){
             var coords = parseDirection(kierunek);
             if(coords!=null){
-                if(coords.y < 0) coords. y = coords.y - 2;
-				else coords.y = coords.y + 2;
-                if (coords.x < 0) coords.x = coords.x - 2;
-				else coords.x = coords.z + 2;
+                if(coords.y < 0) coords. y = coords.y - 1;
+				else coords.y = coords.y + 1;
+                if (coords.x < 0) coords.x = coords.x - 1;
+				else coords.x = coords.x + 1;
                 controller.main_hero.translate_steps(coords.x, coords.y);
 				}
 		}),
