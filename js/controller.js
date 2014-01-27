@@ -233,6 +233,35 @@ function parseNumber(ile){
 	}
 }
 
+scheme_collection = new function(){
+
+    this.user_input = function(input){
+    	var listen = dialog_controller.listen;
+    	input = input.toLowerCase();
+    	//input+=" ";
+    	//console.log("user_input:" + input);
+    	//console.log(this.collection);
+    	console.log('looking for a match...');
+    	var found = false;
+        for(var i in this.collection){
+            var scheme = this.collection[i];
+            console.log(scheme.regex);
+            if(scheme.matches(input)){
+            	found = true;
+            	console.log('found match: ', scheme);
+                scheme.execute(input);
+                break;
+            }
+        }
+        if(!found){
+        	console.log('none found');
+        	dialog.didnt_understand();
+        	//dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
+        	dialog_controller.listen();
+        }
+    }
+
+}
 
 
 function dialog_entry(name, text){
