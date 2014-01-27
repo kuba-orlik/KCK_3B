@@ -3,7 +3,6 @@ var controller = new function(){
 	var self = this;
 
 	this.setup = function(){
-		alert('controller.setup');
 		self.main_hero = object_storage.objects.luigi[0];
 	}
 
