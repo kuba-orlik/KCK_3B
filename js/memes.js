@@ -9,7 +9,8 @@ Meme.prototype = MapObject;
 var memes = [
 	new Meme("batman", "batman.png", [
 		"batman",
-		"dark knight"
+		"dark knight",
+		"batmana"
 	]),
 	new Meme("fuuu", "fuuu.png", [
 		"rageguy",
@@ -29,13 +30,19 @@ var memes = [
 		"fffuu",
 		"fffuuu",
 		"fffuuuu",
-		"ffffuuuu"
+		"ffffuuuu",
+		"ragemana",
+		"ragemena",
+		"rageguya"
 	]),
 	new Meme("awesome", "lol.png", [
 		"awesome",
 		"awesome face",
 		"epic smiley",
-		"smiley"
+		"smiley",
+		"smileya",
+		"smiley'a",
+		"epic smiley'a",
 	]),
 	new Meme("megusta", "megusta.png", [
 		"megusta",
@@ -47,10 +54,19 @@ var memes = [
 		"mouse",
 		"myszka miki",
 		"miki"
+		"myszkę miki"
+		"mikiego"
+		"mickey'ego"
+		"mickey'a",
+		"myszke miki"
 	]),
 	new Meme("nyan", "nyan.png", [
 		"nyan cat",
 		"cat",
-		"nyan"
+		"nyan",
+		"nyan cata",
+		"cata",
+		"kota"
+
 	]),
 ]
