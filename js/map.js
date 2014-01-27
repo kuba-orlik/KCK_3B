@@ -318,7 +318,7 @@ MapObject.prototype.setZ = function(z){
 
 MapObject.prototype.translate = function(x, y){
 
-//-------------------------------------
+/*
 
     console.log('translate(', x, y, ")");
 	
@@ -331,7 +331,7 @@ MapObject.prototype.translate = function(x, y){
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
 		var position = this.mesh.position;
-        var obstacle = MapModel.isObstacle(position.x+step_x, position.y+step_y);
+        var obstacle = MapModel.isObstacle(position.x+new_x, position.y+new_y);
         console.log(obstacle);
         if(!obstacle.obstacle){
             this.setPos(new_x, new_y);
@@ -352,8 +352,8 @@ MapObject.prototype.translate = function(x, y){
     }
 }
 
-//-------------------------------------
-/*
+*/
+
     console.log('translate(', x, y, ")");
     var new_x = parseInt(this.mesh.position.x)+parseInt(x);
     var new_y = parseInt(this.mesh.position.y)+parseInt(y);
@@ -363,7 +363,7 @@ MapObject.prototype.translate = function(x, y){
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
 	dialog_controller.listen(); 
-} */
+}
 
 
 MapObject.prototype.translate_steps = function(x, y){
