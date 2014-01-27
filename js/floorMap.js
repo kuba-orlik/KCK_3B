@@ -63,9 +63,6 @@ MapModel.isObstacle = function(x,y){
 function objectFromString (string){
 	//console.log('objectFromString for', string);
 	//console.log(controller);
-	if(string!="tree"){
-		alert(string);
-	}
 	var ret;
 	switch(string){
 		case "luigi":
