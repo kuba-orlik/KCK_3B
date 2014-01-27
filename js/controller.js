@@ -238,7 +238,7 @@ var verbs = {
 }
 
 var nouns = {
-	steps : "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kratki|kratk(e|ę))"
+	steps : "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kwadratów|kwadratow|kratki|kratk(e|ę))"
 }
 
 scheme_collection = new function(){
