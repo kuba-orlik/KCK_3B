@@ -1,5 +1,5 @@
 var verbs = {
-	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|sk(a|o)cz|przejd(ź|z))",
+	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z))",
     find: "(szukaj|znajd(z|ź))"
 }
 
