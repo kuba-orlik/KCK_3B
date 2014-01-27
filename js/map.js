@@ -204,6 +204,8 @@ MapObject.prototype.init = function(x, y, type){
         case "water":
             var textureURL = "tiles/samawoda.png";
             break;
+        case "meme":
+            var textureURL = "tiles/"  + this.tile;
             
     }
     object_storage.registerObject(this);

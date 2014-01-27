@@ -1,12 +1,10 @@
 var controller = new function(){
 
+	var self = this;
+
 	this.setup = function(){
-		this.main_hero = object_storage.objects.luigi[0];
-	}
-
-
-	this.command = function(command){
-		
+		alert('controller.setup');
+		self.main_hero = object_storage.objects.luigi[0];
 	}
 
 }

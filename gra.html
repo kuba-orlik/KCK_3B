@@ -22,16 +22,18 @@
 			var camera = null;
 			var mesh = null;
 
+			var app = new MapApp();
 			$('document').ready(
 				function() {
 					var container = document.getElementById("container");
-					var app = new MapApp();
 					app.init({ container: container });
 					app.renderer.sortObjects = true;
 					console.log('about to call run');
 					console.log(app.run);
-					meme_collection.putOnMap();
 					app.run();
+					setTimeout(function(){
+						meme_collection.putOnMap();						
+					}, 2000);
 				}
 			);
 

@@ -60,21 +60,29 @@ MapModel.isObstacle = function(x,y){
 	//console.log(floor, objects);
 }
 
-MapModel.objectFromString = function(string){
+function objectFromString (string){
+	//console.log('objectFromString for', string);
+	//console.log(controller);
+	if(string!="tree"){
+		alert(string);
+	}
+	var ret;
 	switch(string){
 		case "luigi":
-			return controller.main_hero;
+			ret=  controller.main_hero;
 			break;
 		case "tree":
-			return {
+			ret =  {
 				type: 'tree'
 			}
 			break;
 	}
 	if(string.indexOf('meme/')==0){
 		var meme_name = string.match(/(?:meme\/)(.*)/)[1];
-		return meme_collection.getMemeByMachineName(meme_name);
+		ret =  meme_collection.getMemeByMachineName(meme_name);
 	}
+	console.log('returning', ret);
+	return ret;
 }
 
 MapModel.getObjects = function(center_x, center_y, radius){
@@ -83,12 +91,15 @@ MapModel.getObjects = function(center_x, center_y, radius){
 		for(var j=center_y-radius; j<=center_y+radius; j++){
 			var objects = this.objectMap[i][j];
 			for(var k in objects){
-				objects_total.push(MapModel.objectFromString(objects[k]));
+				objects_total.push(objectFromString(objects[k]));
 			}
 		}
 	}
 	var summary = {};
+	//console.log(objects_total);
 	for(var i in objects_total){
+		//console.log(objects_total[i]);
+		//console.log(type);
 		var type = objects_total[i].type;
 		if(summary[type]==undefined){
 			summary[type]=1;
