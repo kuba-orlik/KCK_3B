@@ -68,14 +68,14 @@ $(document).ready(function(){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
-	/*	new scheme("(skacz|przeskocz|skocz) (w|do|na) #kierunek", function(kierunek){
+		new scheme("(skacz|przeskocz|skocz) (w|do|na) #kierunek", function(kierunek){
             var coords = parseDirection(kierunek);
             if(coords!=null){
                 coords.y = coords.y + 2;
                 coords.x = coords.x + 2;
                 controller.main_hero.translate_steps(coords.x, coords.y);
 				}
-		}), */
+		}),
         new scheme("dance for me", function(){
             say("ok, you got it, babe");
             window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
