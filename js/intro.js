@@ -11,6 +11,7 @@ $(document).ready(function(){
 							say('Wyczułem zapach Batmana, Myszki Miki i Nyan Cata na tej łące, musimy ich znaleźć...');
 								setTimeout(function() {
 									say ('Oczywiście może ich być tu więcej, o wiele więcej... Czas wyruszyć na poszukiwania...');
+									dialog_controller.listen();
 								}, time);
 							}, time);
 					}, time);
