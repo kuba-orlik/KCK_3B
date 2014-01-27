@@ -313,6 +313,43 @@ MapObject.prototype.setZ = function(z){
 }
 
 MapObject.prototype.translate = function(x, y){
+
+//-------------------------------------
+
+    console.log('translate(', x, y, ")");
+	
+	if(x!=0 || y!=0){
+		var new_x = parseInt(this.mesh.position.x)+parseInt(x);
+		var new_y = parseInt(this.mesh.position.y)+parseInt(y);
+		console.log(MapModel.isObstacle(new_x, new_y));
+    
+    
+    //this.mesh.position.x+=x;
+    //this.mesh.position.y+=y;
+	
+        var obstacle = MapModel.isObstacle(position.x+step_x, position.y+step_y);
+        console.log(obstacle);
+        if(!obstacle.obstacle){
+            this.setPos(new_x, new_y);
+			CameraModel.updatePosition();
+        }else{
+            if(obstacle.reason=="water"){
+                say("Dalej nie pójdę! Tam jest mokro!");
+            }else{
+                say('Dalej nie mogę iść, ponieważ na mojej drodze stoi przeszkoda');                
+            }
+			dialog_controller.listen();
+		}
+		}else{
+			if(x!=undefined){
+				say('Ok, doszedłem na miejsce! Co teraz?');
+				dialog_controller.listen();            
+        }
+    }
+}
+
+//-------------------------------------
+/*
     console.log('translate(', x, y, ")");
     var new_x = parseInt(this.mesh.position.x)+parseInt(x);
     var new_y = parseInt(this.mesh.position.y)+parseInt(y);
@@ -321,8 +358,8 @@ MapObject.prototype.translate = function(x, y){
     CameraModel.updatePosition();
     //this.mesh.position.x+=x;
     //this.mesh.position.y+=y;
-	dialog_controller.listen();
-}
+	dialog_controller.listen(); 
+} */
 
 
 MapObject.prototype.translate_steps = function(x, y){
