@@ -72,9 +72,9 @@ $(document).ready(function(){
             var coords = parseDirection(kierunek);
             if(coords!=null){
                 if(coords.y < 0) coords. y = coords.y - 1;
-				else if (coords.y > 0) = coords.y + 1;
+				else if (coords.y > 0) coords.y = coords.y + 1;
                 if (coords.x < 0) coords.x = coords.x - 1;
-				else if (coords.x > 0) = coords.x + 1;
+				else if (coords.x > 0) coords.x = coords.x + 1;
 				controller.main_hero.translate(coords.x, coords.y);
 				}
 		}),
