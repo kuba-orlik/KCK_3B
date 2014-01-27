@@ -95,15 +95,15 @@ $(document).ready(function(){
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?)", function(){
             //idź do najbliższego mema
             say("Szukam, węszę, gdzie są memy?");
-        })
+        }),
 
         new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) #meme", function(meme)){
             // funkcja podnieś mema(mem) - podnosi mem o takiej nazwie, jeśli stoisz razem z nim na polu, ew. zaimplementować, że może być na polu obok
-        }
+        }),
 
         new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) mem(a)?", function()){
             // funkcja ponieś mema() - podnosi mem, który znajduje się na tym samym polu co Luigi
-        }
+        })
 
     ];    
 });
