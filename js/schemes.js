@@ -34,17 +34,17 @@ $(document).ready(function(){
             }
             dialog_controller.listen();
         }),
-        new scheme(verbs.go + " (o )?(pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na)? #kierunek", function(kierunek){
+        new scheme(verbs.go + " (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na)? #kierunek", function(kierunek){
             controller.main_hero.parseTranslate('jeden', kierunek);
         }),
-		new scheme(verbs.go + " (o )?#ile " + nouns.steps + "?(w|do|na| w| do| na)? #kierunek", function(ile, kierunek){
+		new scheme(verbs.go + " (o)? #ile " + nouns.steps + "?(w|do|na)? #kierunek", function(ile, kierunek){
             controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
             say("Jestem na polu (x = " + controller.main_hero.mesh.position.x + ", y = " + controller.main_hero.mesh.position.y + ")")
             dialog_controller.listen();
         }),
-        new scheme(verbs.go + " (w|do|na)? #kierunek (o )?#ile " + nouns.steps + "?", function(kierunek, ile){
+        new scheme(verbs.go + " (w|do|na)? #kierunek (o)? #ile " + nouns.steps + "?", function(kierunek, ile){
             controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("zr(ó|o)b #ile (kroki|krok(ó|o)w|krok) (w|na|do)? #kierunek", function(ile, kierunek){
@@ -60,11 +60,11 @@ $(document).ready(function(){
                 dialog_controller.listen();
             })
         }),
-        new scheme(verbs.go + " (o )?#ilex " + nouns.steps + "?(w|do|na| w| do| na)? #kierunekx, (i )?" + verbs.go + "? (o )?#iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+        new scheme(verbs.go + " (o)? #ilex " + nouns.steps + "?(w|do|na)? #kierunekx, (i)?" + verbs.go + "?(o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
-        new scheme(verbs.go + " (o )?#ilex " + nouns.steps + "?(w|do|na| w| do| na)? #kierunekx, (a )?(nast(ę|e)pnie|potem) (o )?#iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
+        new scheme(verbs.go + " (o)? #ilex " + nouns.steps + "?(w|do|na)? #kierunekx, (a)? (nast(ę|e)pnie|potem) (o)? #iley " + nouns.steps + "? (w|do|na) #kieruneky", function(ilex, kierunekx, iley, kieruneky){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
