@@ -79,7 +79,7 @@ $(document).ready(function(){
         }),
 
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
-            //tutaj funkcja rozglądania - musi zwracać listę memów, które zauważył + czy zobaczył router
+            //tutaj funkcja rozglądania - musi zwracać listę memów, które zauważył + czy zobaczył router - albo niech zama o tym opodwiada, we wnętrzu funkcji
             controller.main_hero.lookAround(4);
             say("Co ja pacze...");
             say("Zauważyłem następujące memy:, możesz kazać mi podejść do jednego z nich i go podnieść.");
@@ -97,11 +97,11 @@ $(document).ready(function(){
             say("Szukam, węszę, gdzie są memy?");
         }),
 
-        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) #meme", function(meme)){
+        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz)", function(){
             // funkcja podnieś mema(mem) - podnosi mem o takiej nazwie, jeśli stoisz razem z nim na polu, ew. zaimplementować, że może być na polu obok
         }),
 
-        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) mem(a)?", function()){
+        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) mem(a)?", function(){
             // funkcja ponieś mema() - podnosi mem, który znajduje się na tym samym polu co Luigi
         })
 
