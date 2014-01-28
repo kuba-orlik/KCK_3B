@@ -92,16 +92,19 @@ $(document).ready(function(){
             //tutaj funkcja rozglądania - musi zwracać listę memów, które zauważył + czy zobaczył router - albo niech zama o tym opodwiada, we wnętrzu funkcji
             controller.main_hero.lookAround(4);
             say ("Zauważyłem router. Pomyśl czy to nie czas, żeby wysłać jakieś memey do Interentu.");
+            dialog_controller.listen();
         }),
 
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? router(a)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? router(a)?)", function(){
             //idź do najbliższego routera
             say("Już lecę, jak na skrzydłach.");
+            dialog_controller.listen();
         }),
 
         new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?)", function(){
             //idź do najbliższego mema
             say("Szukam, węszę, gdzie są memy?");
+            dialog_controller.listen();
         }),
 
         new scheme("gdzie jest mem #mem", function(meme_name){

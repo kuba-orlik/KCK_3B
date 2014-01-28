@@ -366,7 +366,10 @@ MapObject.prototype.translate = function(x, y){
 }
 
 
-MapObject.prototype.translate_steps = function(x, y){
+MapObject.prototype.translate_steps = function(x, y, avoid_obstacles){
+    if(avoid_obstacles==undefined){
+        avoid_obstacles=true;
+    }
     var self = this;
     var position = this.mesh.position;
     console.log('translate_steps(', x, y, ")");
@@ -382,7 +385,7 @@ MapObject.prototype.translate_steps = function(x, y){
         console.log('step_y', step_y);
         var obstacle = MapModel.isObstacle(position.x+step_x, position.y+step_y);
         console.log(obstacle);
-        if(!obstacle.obstacle){
+        if(!obstacle.obstacle  || !avoid_obstacles){
             this.translate(step_x, step_y);
             setTimeout(function(){
                 self.translate_steps(x-step_x, y-step_y);
