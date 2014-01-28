@@ -317,7 +317,7 @@ MapObject.prototype.update = function(){
         //this.material.color = 0x000000;
         //this.material.color = 0xffffff;
         this.material.color = new THREE.Color(getGray(opacity));   
-        if(hero_position.x==this.mesh.position.x && (hero_position.y>this.mesh.position.y)){
+        if(hero_position.x==this.mesh.position.x && (hero_position.y>=this.mesh.position.y)){
             if(this.type=="tree"){
                 //alert('yis');
             }
@@ -523,7 +523,7 @@ MapObject.prototype.reportRelativeDirection = function(x, y, what){
     if(position.x>x){
         to_say+=  " na lewo,";
     }else if(position.x<x){
-        to_say += "na prawo,";
+        to_say += " na prawo,";
     }else{
 
     }
@@ -556,17 +556,17 @@ MapObject.prototype.gotoMemeIfVisible = function(meme_name){
             var dif_x=0;
             var dif_y=0;
             if(meme.x>self_pos.x){
-                dif_x=1;
+                dif_x=-1;
             }
             if(meme.x<self_pos.x){
-                dif_x=-1;
+                dif_x=1;
             }
             if(meme.x==self_pos.x){
                  if(meme.y>self_pos.y){
-                    dif_y=1;
+                    dif_y=-1;
                 }
                 if(meme.y<self_pos.y){
-                    dif_y=-1;
+                    dif_y=1;
                 }   
             }
             this.goStraightTo(meme.x + dif_x, meme.y + dif_y); 
