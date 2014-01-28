@@ -207,7 +207,7 @@ MapObject.prototype.init = function(x, y, type){
         case "meme":
             var width = 1;
             var height = 1;
-            var att = 0;
+            var att = 0.5;
             var textureURL = "tiles/"  + this.tile;
             break;
             
