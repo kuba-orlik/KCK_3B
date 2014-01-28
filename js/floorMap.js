@@ -1,5 +1,7 @@
 var map_size = 20;
 
+var map_padding = 5;
+
 var water_probability = 3;
 
 var grass_probability = 17;
@@ -22,9 +24,9 @@ for(var i=1; i<=grass_probability; i++){
 	arr.push('grass')
 }
 
-for(var i=1; i<=map_size; i++){
+for(var i=1; i<=map_size+map_padding; i++){
 	floorMap[i]=[];
-	for(var j=1; j<=map_size; j++){
+	for(var j=1; j<=map_size+map_padding; j++){
 		var ran = Math.floor(Math.random()*arr.length);
 		floorMap[i][j] = arr[ran];
 		/*var ran = Math.ceil(Math.random()*(water_probability + grass_probability));
@@ -86,9 +88,12 @@ MapModel.getObjects = function(center_x, center_y, radius){
 	var objects_total = [];
 	for(var i=center_x-radius; i<=center_x+radius; i++){
 		for(var j=center_y-radius; j<=center_y+radius; j++){
-			var objects = this.objectMap[i][j];
-			for(var k in objects){
-				objects_total.push(objectFromString(objects[k]));
+			if(j<=map_size & i<=map_size){
+				console.log(i,j);
+				var objects = this.objectMap[i][j];
+				for(var k in objects){
+					objects_total.push(objectFromString(objects[k]));
+				}				
 			}
 		}
 	}
@@ -120,6 +125,8 @@ var CameraModel = new function(){
 	var padding = 2;
 
 	var y_offset = -5;
+
+	this.y_offset = y_offset;
 
 	this.updatePosition = function(){
 		var hero_position = controller.main_hero.mesh.position;

@@ -31,17 +31,19 @@ MapApp.prototype.init = function(param)
 {
     Sim.App.prototype.init.call(this, param);
     
-    for(var i=1; i<=map_size; i++){
-        for(var j=map_size; j>=1; j--){
+    for(var i=1; i<=map_size+map_padding; i++){
+        for(var j=map_size+map_padding; j>=1; j--){
             var square = new Square();
             square.init(i, j);
-            this.addObject(square);                    
-            var arr = MapModel.objectMap[i][j];
-            for(var k in arr){
-                var obj = new MapObject();
-                obj.init(i, j, arr[k]);
-                this.addObject(obj);
-            }
+            this.addObject(square);   
+            if(i<=map_size && j<=map_size){
+                var arr = MapModel.objectMap[i][j];
+                for(var k in arr){
+                    var obj = new MapObject();
+                    obj.init(i, j, arr[k]);
+                    this.addObject(obj);
+                }
+            }                 
         }
     }
 
@@ -231,8 +233,8 @@ MapObject.prototype.init = function(x, y, type){
     mesh.position.x=x*block_size;
     //mesh.position.y=(y + 0.7)*block_size;
     mesh.position.y = y*block_size;
-    mesh.translateZ(1*block_size);
-    mesh.position.z = att;
+    mesh.translateZ(1*block_size);  
+    mesh.position.z = 0.5;
 
     mesh.rotation.x = Math.round(45 * 100 * Math.PI /180)/100;
 
@@ -290,6 +292,9 @@ MapObject.prototype.update = function(){
             break;
         case 'luigi':
             this.mesh.position.z = 0.3;
+            break;
+        case 'meme':
+            this.mesh.position.z = 0.5;
     }
     if(this.type!="luigi"){
         var main_hero = controller.main_hero;
@@ -443,6 +448,8 @@ MapObject.prototype.goAsFarAsPossible = function(direction){
 }
 
 MapObject.prototype.lookAround = function(radius){
+    CameraModel.position.x = this.mesh.position.x;
+    CameraModel.position.y = this.mesh.position.y+CameraModel.y_offset;
     console.log('look around');
     var current_position = this.mesh.position;
     var surroundings = MapModel.getObjects(current_position.x, current_position.y, radius);
@@ -493,15 +500,21 @@ MapObject.prototype.howFarIs = function(x, y){
 
 MapObject.prototype.reportRelativeDirection = function(x, y, what){
     var position = this.mesh.position;
-    var hor = "prawo";
-    if(position.x<x){
-        hor = "lewo";
+    var to_say = what + " jest";
+    if(position.x>x){
+        to_say+=  " na lewo,";
+    }else if(position.x<x){
+        to_say += "na prawo,";
+    }else{
+
     }
-    var ver = "górę";
-    if(position.y<y){
-        ver = "dół";
+    if(position.y>y){
+        to_say+= " na dół";
+    }else if(position.y<y){
+        to_say+=" do góry";
     }
-    say(what + " jest na " + hor + ", na " + ver + " ode mnie.");
+    to_say +=" ode mnie.";
+    say(to_say);
 }
 
 MapObject.prototype.findClosestMeme = function(){

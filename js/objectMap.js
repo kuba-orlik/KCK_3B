@@ -41,7 +41,7 @@ for(var i = map_size; i>=1; i--){
 		objectMap[i][j] = [];
 		//objectMap[i][j].push('luigi');
 		//objectMap[i][j].push('tree');
-		if(i==1 || j==1){
+		if(i==1 || j==1 ||i==map_size || j==map_size){
 			objectMap[i][j].push('tree');
 		}else{
 			var rand = Math.ceil(Math.random()*8);
