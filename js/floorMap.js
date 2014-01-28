@@ -1,4 +1,4 @@
-var map_size = 50;
+var map_size = 20;
 
 var water_probability = 3;
 
