@@ -401,7 +401,7 @@ MapObject.prototype.translate_steps = function(x, y, avoid_obstacles){
         if(!obstacle.obstacle  || !avoid_obstacles){
             this.translate(step_x, step_y);
             setTimeout(function(){
-                self.translate_steps(x-step_x, y-step_y);
+                self.translate_steps(x-step_x, y-step_y, avoid_obstacles);
             }, 500)                    
         }else{
             if(obstacle.reason=="water"){
@@ -460,7 +460,7 @@ MapObject.prototype.lookAround = function(radius){
     CameraModel.position.y = this.mesh.position.y+CameraModel.y_offset;
     console.log('look around');
     var current_position = this.mesh.position;
-    var surroundings = MapModel.getObjects(current_position.x, current_position.y+2, radius-1);
+    var surroundings = MapModel.getObjects(current_position.x, current_position.y+2, radius);
     var objects = surroundings.objects;
     var summary = surroundings.summary;
     //console.log(summary);
@@ -496,7 +496,7 @@ MapObject.prototype.lookAround = function(radius){
                 }
                 break;
             case "router":
-                say ("Zauważyłem router. Pomyśl czy to nie czas, żeby wysłać jakieś memey do Interentu.");
+                say ("Zauważyłem router. Pomyśl czy to nie czas, żeby wysłać jakieś memy do Interentu.");
                 break;
         }
     }
@@ -533,6 +533,42 @@ MapObject.prototype.findClosestMeme = function(){
     say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");
     this.reportRelativeDirection(min_meme.x, min_meme.y, min_meme.acceptable_names[0]);
     dialog_controller.listen();
+}
+
+MapObject.prototype.gotoMemeIfVisible = function(meme_name){
+    var meme = controller.getMemeByName(meme_name);
+    if(meme!=null){
+        var meme_position = meme.mesh.position;
+        var distance = this.howFarIs(meme_position.x, meme_position.y);
+        //alert(distance);
+        if(distance>visibility){
+            say("Nie widzę mema " + meme.acceptable_names[0] + ". Jest za daleko.");
+        }else{
+            var self_pos = this.mesh.position;
+            var dif_x=0;
+            var dif_y=0;
+            if(meme.x>self_pos.x){
+                dif_x=1;
+            }
+            if(meme.x<self_pos.x){
+                dif_x=-1;
+            }
+            if(meme.x==self_pos.x){
+                 if(meme.y>self_pos.y){
+                    dif_y=1;
+                }
+                if(meme.y<self_pos.y){
+                    dif_y=-1;
+                }   
+            }
+            this.goStraightTo(meme.x + dif_x, meme.y + dif_y); 
+        }
+        dialog_controller.listen();
+    }
+}
+
+MapObject.prototype.goStraightTo = function(x, y){
+    this.translate_steps(x-this.mesh.position.x, y-this.mesh.position.y, false);
 }
 
 Router = function(){

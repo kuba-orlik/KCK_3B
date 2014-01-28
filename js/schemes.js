@@ -19,6 +19,11 @@ $(document).ready(function(){
                 controller.main_hero.translate_steps(coords.x, coords.y);               
             }
         }),
+
+        new scheme(verbs.go + " do mema #meme", function(meme_name){
+            controller.main_hero.gotoMemeIfVisible(meme_name);
+        }),
+
         new scheme(verbs.go + " (jak)? (najdalej|najbardziej|najdalej|max|ma(x|ks)ymalnie) (w|do|na)? #kierunek (jak (tylko)? si(ę|e) da|jak to (tylko)? mo(z|ż)liwe)?", function(kierunek){
             controller.main_hero.goAsFarAsPossible(parseDirection(kierunek));
         }),
@@ -82,6 +87,17 @@ $(document).ready(function(){
             say("ok, you got it, babe");
             window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
         }),
+
+        new scheme("krzycz trybson", function(){
+            say("trybson");
+            setTimeout(function(){
+                say('trybson');
+                setTimeout(function(){
+                    say('trybson');
+                    dialog_controller.listen();
+                }, 800);
+            }, 800);
+        }),
         
         new scheme("(help|wskazówka|wskazowka|pomoc(y)?|Nie wiem co (robi(c|ć)|zrobi(ć|c))|co dalej(\?)?|(i)? co teraz(\?)?)|(panie )?(premierze )?jak żyć(panie )?(premierze )?", function(){
             say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je powrotem do Internetu.');       
@@ -116,8 +132,10 @@ $(document).ready(function(){
 
         new scheme("gdzie jest mem #mem\?", function(meme_name){
             var meme = controller.getMemeByName(meme_name);
-            say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
-            dialog_controller.listen();
+            if(meme!=null){
+                say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
+                dialog_controller.listen();                
+            }
         }),
 
         new scheme("(gdzie|jaki|który) jest najbliższy mem?", function(){
@@ -131,6 +149,9 @@ $(document).ready(function(){
         new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) mem(a)?", function(){
             // funkcja ponieś mema() - podnosi mem, który znajduje się na tym samym polu co Luigi
         })
+
+       
+
 
     ];    
 });
