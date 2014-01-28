@@ -59,6 +59,7 @@ objectMap[15][15].push('luigi');
 
 
 
+
 MapModel.objectMap = objectMap;
 
 

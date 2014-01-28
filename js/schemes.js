@@ -82,7 +82,8 @@ $(document).ready(function(){
             say("ok, you got it, babe");
             window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
         }),
-              new scheme("(help|wskazówka|wskazowka|pomoc(y)?|Nie wiem co (robi(c|ć)|zrobi(ć|c))|co dalej(\?)?|(i)? co teraz(\?)?)|(panie )?(premierze )?jak żyć(panie )?(premierze )?", function(){
+        
+        new scheme("(help|wskazówka|wskazowka|pomoc(y)?|Nie wiem co (robi(c|ć)|zrobi(ć|c))|co dalej(\?)?|(i)? co teraz(\?)?)|(panie )?(premierze )?jak żyć(panie )?(premierze )?", function(){
             say('Pomóż mi poszukać memów, podnieść je i włożyć do jednego z routerów, żeby wysłać je powrotem do Internetu.');       
            dialog_controller.listen();   
 
@@ -91,7 +92,6 @@ $(document).ready(function(){
         new scheme("(rozejrzyj si(ę|e)( wokół)?( w około)?|co widzisz(\?)?)", function(){
             //tutaj funkcja rozglądania - musi zwracać listę memów, które zauważył + czy zobaczył router - albo niech zama o tym opodwiada, we wnętrzu funkcji
             controller.main_hero.lookAround(4);
-            say ("Zauważyłem router. Pomyśl czy to nie czas, żeby wysłać jakieś memey do Interentu.");
             dialog_controller.listen();
         }),
 
@@ -107,7 +107,14 @@ $(document).ready(function(){
             dialog_controller.listen();
         }),
 
-        new scheme("gdzie jest mem #mem", function(meme_name){
+        new scheme("gdzie jest router", function(){
+            var router = object_storage.objects.router[0];
+            var router_position = router.mesh.position;
+            controller.main_hero.reportRelativeDirection(router_position.x, router_position.y, "router");
+            dialog_controller.listen();
+        }),
+
+        new scheme("gdzie jest mem #mem\?", function(meme_name){
             var meme = controller.getMemeByName(meme_name);
             say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
             dialog_controller.listen();

@@ -32,11 +32,12 @@ MapApp.prototype.init = function(param)
     Sim.App.prototype.init.call(this, param);
     
     for(var i=1; i<=map_size+map_padding; i++){
-        for(var j=map_size+map_padding; j>=1; j--){
+        for(var j=map_size+map_padding; j>=1-map_padding; j--){
             var square = new Square();
             square.init(i, j);
             this.addObject(square);   
             if(i<=map_size && j<=map_size){
+                console.log(i, j);
                 var arr = MapModel.objectMap[i][j];
                 for(var k in arr){
                     var obj = new MapObject();
@@ -211,6 +212,13 @@ MapObject.prototype.init = function(x, y, type){
             var height = 1;
             var att = 0.5;
             var textureURL = "tiles/"  + this.tile;
+            break;
+        case "router":
+            var width = 1;
+            var height = 1;
+            var att=0.5;
+            var textureURL = "tiles/router.png";
+
             break;
             
     }
@@ -452,7 +460,7 @@ MapObject.prototype.lookAround = function(radius){
     CameraModel.position.y = this.mesh.position.y+CameraModel.y_offset;
     console.log('look around');
     var current_position = this.mesh.position;
-    var surroundings = MapModel.getObjects(current_position.x, current_position.y, radius);
+    var surroundings = MapModel.getObjects(current_position.x, current_position.y+2, radius-1);
     var objects = surroundings.objects;
     var summary = surroundings.summary;
     //console.log(summary);
@@ -486,6 +494,9 @@ MapObject.prototype.lookAround = function(radius){
                         say("W pobliżu grasuje mem '" + objects[i].acceptable_names[0] + "'");                           
                     }
                 }
+                break;
+            case "router":
+                say ("Zauważyłem router. Pomyśl czy to nie czas, żeby wysłać jakieś memey do Interentu.");
                 break;
         }
     }
@@ -523,3 +534,15 @@ MapObject.prototype.findClosestMeme = function(){
     this.reportRelativeDirection(min_meme.x, min_meme.y, min_meme.acceptable_names[0]);
     dialog_controller.listen();
 }
+
+Router = function(){
+
+}
+
+Router.init = function(x, y){
+    this.prototype.init(x, y, 'router');
+    this.tile = 'router.png';
+}
+
+Router.prototype = new MapObject();
+

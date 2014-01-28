@@ -120,5 +120,20 @@ var meme_collection = new function(){
 			//object_storage.registerObject(meme);
 			app.addObject(meme);
 		}
+		do{
+			var coor_x = randomCoor();
+			var coor_y = randomCoor();
+		}while(
+			MapModel.isObstacle(coor_x, coor_y).obstacle
+		||	MapModel.isObstacle(coor_x+1, coor_y).obstacle
+		||	MapModel.isObstacle(coor_x-1, coor_y).obstacle
+		||	MapModel.isObstacle(coor_x, coor_y+1).obstacle
+		||	MapModel.isObstacle(coor_x, coor_y-1).obstacle);
+		//coor_x= 8;
+		//coor_y = 8;
+		var router = new Router();
+		MapModel.objectMap[coor_x][coor_y].push("router");
+		router.init(coor_x, coor_y, "router");
+		app.addObject(router);
 	}
 }

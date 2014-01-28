@@ -80,6 +80,9 @@ function objectFromString (string){
 		var meme_name = string.match(/(?:meme\/)(.*)/)[1];
 		ret =  meme_collection.getMemeByMachineName(meme_name);
 	}
+	if(string=="router"){
+		return object_storage.objects.router[0];
+	}
 	console.log('returning', ret);
 	return ret;
 }
@@ -88,7 +91,7 @@ MapModel.getObjects = function(center_x, center_y, radius){
 	var objects_total = [];
 	for(var i=center_x-radius; i<=center_x+radius; i++){
 		for(var j=center_y-radius; j<=center_y+radius; j++){
-			if(j<=map_size & i<=map_size){
+			if(j<=map_size && i<=map_size && i>0 && j>0){
 				console.log(i,j);
 				var objects = this.objectMap[i][j];
 				for(var k in objects){
