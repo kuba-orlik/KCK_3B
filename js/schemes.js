@@ -117,11 +117,6 @@ $(document).ready(function(){
             dialog_controller.listen();
         }),
 
-        new scheme("(" + verbs.go + "do (najbli(z|ż)szego)? mem(a|ów)?|" + verbs.find + " (najbli(z|ż)sz(y|ego))? mem(a|ów)?)", function(){
-            //idź do najbliższego mema
-            say("Szukam, węszę, gdzie są memy?");
-            dialog_controller.listen();
-        }),
 
         new scheme("gdzie jest router", function(){
             var router = object_storage.objects.router[0];
@@ -130,7 +125,7 @@ $(document).ready(function(){
             dialog_controller.listen();
         }),
 
-        new scheme("gdzie jest mem #mem\?", function(meme_name){
+        new scheme("gdzie jest (mem)? #mem\?", function(meme_name){
             var meme = controller.getMemeByName(meme_name);
             if(meme!=null){
                 say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
