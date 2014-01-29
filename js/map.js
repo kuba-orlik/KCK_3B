@@ -599,8 +599,19 @@ MapObject.prototype.takeMeme = function(meme_name){
     }
 }
 
-Router = function(){
+MapObject.prototype.goToRouter = function(){
+    var router = object_storage.objects.router[0];
+    var router_position = router.mesh.position;
+    var distance = this.howFarIs(router_position.x, router_position.y);
+    if(distance<visibility){
+        controller.main_hero.goStraightTo(router_position.x, router_position.y);        
+    }else{
+        say("Nie widzę routera, jest za daleko. ");
+    }
+    dialog_controller.listen();
+}
 
+Router = function(){
 }
 
 Router.init = function(x, y){

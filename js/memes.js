@@ -131,6 +131,7 @@ var meme_collection = new function(){
 		||	MapModel.isObstacle(coor_x, coor_y-1).obstacle);
 		//coor_x= 8;
 		//coor_y = 8;
+		alert('adding router');
 		var router = new Router();
 		MapModel.objectMap[coor_x][coor_y].push("router");
 		router.init(coor_x, coor_y, "router");

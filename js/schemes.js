@@ -10,6 +10,13 @@ var nouns = {
 
 $(document).ready(function(){
     scheme_collection.collection = [
+        
+
+        new scheme(verbs.go + " do routera", function(){
+            controller.main_hero.goToRouter();
+        }),
+
+
         new scheme(verbs.go + " (w|do|na)? #kierunek", function(kierunek){           
             var amount = Math.ceil(Math.random()*3);
             var coords = parseDirection(kierunek);
@@ -20,10 +27,13 @@ $(document).ready(function(){
             }
         }),
 
+
+
         new scheme(verbs.go, function(){
             say("Dobrze, ale gdzie mam iść?");
             dialog_controller.listen();
         }),
+
 
         new scheme(verbs.go + " do mema #meme", function(meme_name){
             controller.main_hero.gotoMemeIfVisible(meme_name);
