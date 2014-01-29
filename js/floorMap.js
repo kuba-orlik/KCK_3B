@@ -65,7 +65,12 @@ MapModel.isObstacle = function(x,y){
 	}
 	if(response.type=="object" && response.reason.indexOf("meme")==0){
 		console.log()
-		//response.obstacle = false;
+		var meme = objectFromString(response.reason);
+		if(meme.in_router||meme.in_basket){
+			response.obstacle = false;			
+		}else{
+			response.obstacle = true;
+		}
 	}
 	return response;
 }

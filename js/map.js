@@ -567,6 +567,9 @@ MapObject.prototype.lookAround = function(radius){
                 break;
         }
     }
+    if(summary.meme==undefined){
+        say("W zasięgu mojego wzroku nie widzę żadnych memów.");
+    }
     dialog_controller.listen();
 }
 
@@ -679,7 +682,7 @@ MapObject.prototype.goToRouter = function(callback){
         return true;
     }else{
         say("Nie widzę routera, jest za daleko. ");
-        this.reportRelativeDirection(router_position.x, router_position.y);
+        this.reportRelativeDirection(router_position.x, router_position.y, "router");
         dialog_controller.listen();
         return false;
     }
@@ -709,7 +712,7 @@ MapObject.prototype.dumpMemes = function(){
             say("Wporząsiu! Kolejne " + s + " memów jest już w Internecie.");
         }
         controller.report();
-        if(controller.howManyMemesFree==0){
+        if(controller.howManyMemesFree()==0){
             document.location="http://disco.fleo.se/?name=wygrales";
         }
     });
