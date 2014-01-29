@@ -1,12 +1,11 @@
 var verbs = {
-	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z))",
+	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z)|podejd(z|ź|))",
     find: "(szukaj|znajd(z|ź))"
 }
 
 var nouns = {
 	steps : "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kwadratów|kwadratow|kratki|kratk(e|ę))"
 }
-
 
 $(document).ready(function(){
     scheme_collection.collection = [
@@ -16,6 +15,9 @@ $(document).ready(function(){
             controller.main_hero.goToRouter();
         }),
 
+        new scheme("(wrzuć|wyrzuć|wyjmij|przenieś) memy (z koszyka)? do (internetu|routera)", function(){
+            controller.main_hero.dumpMemes();
+        }),
 
         new scheme(verbs.go + " (w|do|na)? #kierunek", function(kierunek){           
             var amount = Math.ceil(Math.random()*3);
@@ -160,12 +162,12 @@ $(document).ready(function(){
             // funkcja ponieś mema() - podnosi mem, który znajduje się na tym samym polu co Luigi
         }),
 
-        new scheme("we(ź|z) mema #meme do koszyka", function(meme_name){
+        new scheme("we(ź|z) mem(a)? #meme do koszyka", function(meme_name){
             controller.main_hero.takeMeme(meme_name);
             dialog_controller.listen();
         }),
 
-        new scheme("co masz w koszyku?", function(){
+        new scheme("(co|ile memów) ma(sz|m|my) w koszyku?", function(){
             basket.reportState();
             dialog_controller.listen();
         }),

@@ -22,7 +22,7 @@ var controller = new function(){
 	    for(var i in memes){
 	        var meme = memes[i];
 	        var dist = this.main_hero.howFarIs(meme.x, meme.y);
-	        if(dist<min_dist){
+	        if(dist<min_dist && !meme.in_router && !meme.in_basket){
 	            min_dist = dist;
 	            min_meme = meme;
 	        }
@@ -53,9 +53,26 @@ var controller = new function(){
 	}
 
 
+
 	this.report = function(){
-		say("Na wolności jest " + this.howManyMemesFree() + " memów.");
 		say("Memów w Internecie: " + this.howManyMemesInRouter() + ".");
+		var meme_amount = this.howManyMemesFree();
+		var meme_word="memów";
+		switch(meme_amount){
+			case 1:
+				meme_word="mem";
+				break;
+			case 2:
+				meme_word="memy";
+				break;
+			case 3:
+				meme_word="memy";
+				break;
+			case 4:
+				meme_word="memy";
+				break;
+		}
+		say("Do złapania pozostało: " + meme_amount+ " " + meme_word + ".");
 		basket.reportState();
 		dialog_controller.listen();
 	}
@@ -505,7 +522,9 @@ var basket = new function(){
 
 	this.reportState = function(){
 		var to_say = "W koszyku mam " + this.memes.length;
-		if(this.memes.length>=1){
+		if(this.memes.length==0){
+			to_say+=" memów"
+		}else if(this.memes.length==1){
 			to_say+=" mem";
 		}else if(this.memes.length<5 ){
 			to_say+=" memy"
@@ -523,6 +542,16 @@ var basket = new function(){
 		}	
 	}
 
+	this.removeMeme = function(meme){
+		for(var i in this.memes){
+			if(this.memes[i].machine_name == meme.machine_name){
+				console.log("splicing", this.memes[i]);
+				this.memes[i].x=map_size+2;
+				this.memes.splice(i, 1);
+				break;
+			}
+		}
+	}
 
 	this.insertMeme = function(meme){
 		for(var i in this.memes){
@@ -537,7 +566,7 @@ var basket = new function(){
 			meme.in_basket = true;
 			say("Ok, wrzuciłem mema " + meme.acceptable_names[0] + " do koszyka.");
 		}else{
-			say("Mem " + meme.acceptable_names[0] + "już jest w koszyku.");
+			say("Mem " + meme.acceptable_names[0] + " już jest w koszyku.");
 		}
 		this.reportState();
 	}

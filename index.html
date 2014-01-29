@@ -50,7 +50,7 @@
 			if(value=='start'){
 				setTimeout(function(){
 					enter.fadeIn(400);					
-				}, 200);
+				}, 50);
 			}else{
 				enter.fadeOut(400);
 			}
@@ -58,6 +58,7 @@
 
 		function start(){
 			console.log('start()');
+			$("#press_enter").text("");
 			setTimeout(function(){
 				new Howl({
 				  urls: ['music/klik.mp3'],

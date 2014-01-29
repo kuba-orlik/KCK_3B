@@ -317,17 +317,18 @@ MapObject.prototype.update = function(){
         //this.material.color = 0x000000;
         //this.material.color = 0xffffff;
         this.material.color = new THREE.Color(getGray(opacity));   
-        if(hero_position.x==this.mesh.position.x && (hero_position.y+1>=this.mesh.position.y)){
-            if(this.type=="tree"){
-                //alert('yis');
-            }
+        var tree_add_hack = 0;
+        if(this.type=="tree"){
+            tree_add_hack=1;
+        }
+        if(hero_position.x==this.mesh.position.x && (hero_position.y+tree_add_hack>=this.mesh.position.y)){
             this.material.opacity = 0.5;
         }else{
             this.material.opacity = 1;
         }
     }
     if(this.type=="meme"){
-        if(this.in_basket){
+        if(this.in_basket || this.in_router){
             this.material.opacity = 0;
         }
     }
@@ -392,7 +393,7 @@ MapObject.prototype.translate = function(x, y){
 }
 
 
-MapObject.prototype.translate_steps = function(x, y, avoid_obstacles){
+MapObject.prototype.translate_steps = function(x, y, avoid_obstacles, callback){
     if(avoid_obstacles==undefined){
         avoid_obstacles=true;
     }
@@ -414,7 +415,7 @@ MapObject.prototype.translate_steps = function(x, y, avoid_obstacles){
         if(!obstacle.obstacle  || !avoid_obstacles){
             this.translate(step_x, step_y);
             setTimeout(function(){
-                self.translate_steps(x-step_x, y-step_y, avoid_obstacles);
+                self.translate_steps(x-step_x, y-step_y, avoid_obstacles, callback);
             }, 500)                    
         }else{
             if(obstacle.reason=="water"){
@@ -425,11 +426,56 @@ MapObject.prototype.translate_steps = function(x, y, avoid_obstacles){
             dialog_controller.listen();
         }
     }else{
-        if(x!=undefined){
-            say('Ok, doszedłem na miejsce! Co teraz?');
-            dialog_controller.listen();            
+        if(callback!=undefined){
+            callback();
+        }else{
+            if(x!=undefined){
+                say('Ok, doszedłem na miejsce! Co teraz?');
+                dialog_controller.listen();            
+            }            
         }
     }
+}
+
+MapObject.prototype.goNear = function(x,y, callback){
+    var self_pos = this.mesh.position;
+    var dif_x=0;
+    var dif_y=0;
+     if(x>self_pos.x){
+        dif_x=-1;
+    }
+    if(x<self_pos.x){
+        dif_x=1;
+    }
+    if(x==self_pos.x){
+         if(y>self_pos.y){
+            dif_y=-1;
+        }
+        if(y<self_pos.y){
+            dif_y=1;
+        }   
+    }
+    var found = false;
+    if(MapModel.isObstacle(x+dif_x, y+dif_y).obstacle){
+        for(var i=-1; i<=1; i++){
+            for(var j=-1; j<=1; j++){
+                var temp_dif_x=i;
+                var temp_dif_y=j;
+                if(!MapModel.isObstacle(x+temp_dif_x, y+temp_dif_y).obstacle){
+                    found = true;
+                    break;
+                }
+            }
+            if(found){
+                break;
+            }
+        }
+    }
+    if(found){
+        dif_x=temp_dif_x;
+        dif_y = temp_dif_y;
+    }
+    this.goStraightTo(x+dif_x, y+dif_y, callback);
 }
 
 MapObject.prototype.parseTranslate = function(ile, kierunek){
@@ -473,7 +519,7 @@ MapObject.prototype.lookAround = function(radius){
     CameraModel.position.y = this.mesh.position.y+CameraModel.y_offset;
     console.log('look around');
     var current_position = this.mesh.position;
-    var surroundings = MapModel.getObjects(current_position.x, current_position.y+2, radius);
+    var surroundings = MapModel.getObjects(current_position.x, current_position.y+1, radius);
     var objects = surroundings.objects;
     var summary = surroundings.summary;
     //console.log(summary);
@@ -496,14 +542,22 @@ MapObject.prototype.lookAround = function(radius){
                 say(to_say);
                 break;
             case "meme":
-                if(summary[i]==1){
-                    var   to_say = "OMG widzę mema";                    
-                }else{
+                var meme_count=0;
+                for(var i in objects){
+                    if(objects[i].type=="meme" && !objects[i].in_basket && !objects[i].in_router){
+                        meme_count++;
+                    }
+                }
+                if(meme_count==1){
+                    var to_say = "OMG widzę mema";                    
+                }else if(meme_count>1){
                     var to_say = "OMG widzę memy";
+                }else if(meme_count==0){
+                    var to_say = "W zasięgu mojego wzroku nie widzę żadnych memów.";
                 }
                 say(to_say);
                 for(var i in objects){
-                    if(objects[i].type=="meme"){
+                    if(objects[i].type=="meme" && !objects[i].in_basket && !objects[i].in_router){
                         say("W pobliżu grasuje mem '" + objects[i].acceptable_names[0] + "'");                           
                     }
                 }
@@ -524,17 +578,26 @@ MapObject.prototype.howFarIs = function(x, y){
 
 MapObject.prototype.reportRelativeDirection = function(x, y, what){
     var position = this.mesh.position;
-    var to_say = what + " jest";
+    var to_say = "Wiem, że " + what + " jest";
+    var coma = false;
     if(position.x>x){
-        to_say+=  " na lewo,";
+        to_say+=  " na lewo";
+        coma = true;
     }else if(position.x<x){
-        to_say += " na prawo,";
+        to_say += " na prawo";
+        coma = true;
     }else{
 
     }
     if(position.y>y){
+        if(coma){
+            to_say+=",";
+        }
         to_say+= " na dół";
     }else if(position.y<y){
+        if(coma){
+            to_say+=",";
+        }
         to_say+=" do góry";
     }
     to_say +=" ode mnie.";
@@ -543,8 +606,12 @@ MapObject.prototype.reportRelativeDirection = function(x, y, what){
 
 MapObject.prototype.findClosestMeme = function(){
     var min_meme = controller.getClosestMeme();
-    say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");
-    this.reportRelativeDirection(min_meme.x, min_meme.y, min_meme.acceptable_names[0]);
+    if(min_meme==null){
+        say("Nie ma już żadnych memów luzem. Zanieś memy, które masz w koszyku, do routera!");
+    }else{
+        say("Najbliżej jest mem " + min_meme.acceptable_names[0] + ".");        
+       this.reportRelativeDirection(min_meme.x, min_meme.y, min_meme.acceptable_names[0]);
+    }
     dialog_controller.listen();
 }
 
@@ -555,9 +622,10 @@ MapObject.prototype.gotoMemeIfVisible = function(meme_name){
         var distance = this.howFarIs(meme_position.x, meme_position.y);
         //alert(distance);
         if(distance>visibility){
-            say("Nie widzę mema " + meme.acceptable_names[0] + ". Jest za daleko.");
+            say("Nie wiem, jak dojść do mema <i>" + meme.acceptable_names[0] + "</i>. Jest za daleko.");
         }else{
-            var self_pos = this.mesh.position;
+            this.goNear(meme.x, meme.y);
+            /*var self_pos = this.mesh.position;
             var dif_x=0;
             var dif_y=0;
             if(meme.x>self_pos.x){
@@ -574,14 +642,14 @@ MapObject.prototype.gotoMemeIfVisible = function(meme_name){
                     dif_y=1;
                 }   
             }
-            this.goStraightTo(meme.x + dif_x, meme.y + dif_y); 
+            this.goStraightTo(meme.x + dif_x, meme.y + dif_y); */
         }
         dialog_controller.listen();
     }
 }
 
-MapObject.prototype.goStraightTo = function(x, y){
-    this.translate_steps(x-this.mesh.position.x, y-this.mesh.position.y, false);
+MapObject.prototype.goStraightTo = function(x, y, callback){
+    this.translate_steps(x-this.mesh.position.x, y-this.mesh.position.y, false, callback);
 }
 
 MapObject.prototype.takeMeme = function(meme_name){
@@ -594,21 +662,57 @@ MapObject.prototype.takeMeme = function(meme_name){
             say("Nie sięgam! Muszę podejść bliżej.");
             dialog_controller.listen();
         }else{
-            basket.insertMeme(meme);
+            this.goNear(meme.x, meme.y, function(){
+                basket.insertMeme(meme);                
+            })
         }
     }
 }
 
-MapObject.prototype.goToRouter = function(){
+MapObject.prototype.goToRouter = function(callback){
     var router = object_storage.objects.router[0];
     var router_position = router.mesh.position;
     var distance = this.howFarIs(router_position.x, router_position.y);
     if(distance<visibility){
-        controller.main_hero.goStraightTo(router_position.x, router_position.y);        
+        controller.main_hero.goNear(router_position.x, router_position.y, callback);        
+        dialog_controller.listen();
+        return true;
     }else{
         say("Nie widzę routera, jest za daleko. ");
+        this.reportRelativeDirection(router_position.x, router_position.y);
+        dialog_controller.listen();
+        return false;
     }
-    dialog_controller.listen();
+}
+
+MapObject.prototype.dumpMemes = function(){
+    var near_router = this.goToRouter(function(){
+        //alert('zrzucanie');
+        var s = 0;
+        var last_meme;
+        for(var i in meme_collection.collection){
+            var meme = meme_collection.collection[i];
+            console.log(meme);
+            if(meme.in_basket){
+                s++;    
+                meme.in_basket = false;
+                meme.in_router = true;
+                last_meme = meme;
+                basket.removeMeme(meme);
+            }
+        }
+        if(s==0){
+            say("No dobra, doszedłem do routera, ale nie mam żadnych memów w koszyku... więc nie mam memów do wrzucenia.");
+        }else if(s==1){
+            say("Ok, wrzuciłem mema <i>" + last_meme.acceptable_names[0] + "</i> do Internetu.");
+        }else{
+            say("Wporząsiu! Kolejne " + s + " memów jest już w Internecie.");
+        }
+        controller.report();
+        if(controller.howManyMemesFree==0){
+            document.location="http://disco.fleo.se/?name=wygrales";
+        }
+    });
 }
 
 Router = function(){
