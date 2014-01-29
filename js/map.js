@@ -317,7 +317,7 @@ MapObject.prototype.update = function(){
         //this.material.color = 0x000000;
         //this.material.color = 0xffffff;
         this.material.color = new THREE.Color(getGray(opacity));   
-        if(hero_position.x==this.mesh.position.x && (hero_position.y>=this.mesh.position.y)){
+        if(hero_position.x==this.mesh.position.x && (hero_position.y+1>=this.mesh.position.y)){
             if(this.type=="tree"){
                 //alert('yis');
             }

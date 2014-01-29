@@ -153,6 +153,15 @@ $(document).ready(function(){
         new scheme("we(ź|z) mema #meme do koszyka", function(meme_name){
             controller.main_hero.takeMeme(meme_name);
             dialog_controller.listen();
+        }),
+
+        new scheme("co masz w koszyku?", function(){
+            basket.reportState();
+            dialog_controller.listen();
+        }),
+
+        new scheme('zdaj raport', function(){
+            controller.report();
         })
     ];    
 });

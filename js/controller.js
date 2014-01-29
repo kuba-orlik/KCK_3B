@@ -30,6 +30,36 @@ var controller = new function(){
 	    return min_meme;
 	}
 
+	this.howManyMemesInRouter = function(){
+		var s = 0;
+		for(var i in meme_collection.collection){
+			var meme = meme_collection.collection[i];
+			if(meme.in_router){
+				s++;
+			}
+		}
+		return s;
+	}
+
+	this.howManyMemesFree = function(){
+		var s = 0;
+		for(var i in meme_collection.collection){
+			var meme = meme_collection.collection[i];
+			if(!meme.in_basket && !meme.in_router){
+				s++;
+			}
+		}
+		return s;
+	}
+
+
+	this.report = function(){
+		say("Na wolności jest " + this.howManyMemesFree() + " memów.");
+		say("Memów w Internecie: " + this.howManyMemesInRouter() + ".");
+		basket.reportState();
+		dialog_controller.listen();
+	}
+
 }
 
 var Parser = {}
@@ -87,7 +117,6 @@ Parser.notationMatchesInput = function(notation, input){
 };
 
 Parser.extractAttributes = function(regex, input){
-	console.log(input.match(regex));
 }
 
 function scheme(notation, command){
@@ -97,12 +126,10 @@ function scheme(notation, command){
 
     this.notation = notation;
 
-    console.log(notation);
 
     this.extractParameters = function(input){
     	var matches = input.match(this.regex);
     	if(matches==null){
-    		console.log('trying with trailing space');
     		input +=" ";
     		var matches = input.match(this.regex);
     	}
@@ -111,9 +138,7 @@ function scheme(notation, command){
     }
 
     this.execute = function(input){
-    	console.log(input);
         var params = this.extractParameters(input);
-        console.log(params);
         this.command.apply(this, params);
     }
 }
@@ -131,7 +156,6 @@ function parseDirection(kierunek){
 	var coord_x = 0;
 	var coord_y = 0;
 	var error = false;
-	console.log('parsing ', kierunek);
 	switch(kierunek){
 		case "lewo":
 			coord_x=-1;
@@ -228,9 +252,7 @@ function parseDirection(kierunek){
 
 function parseNumber(ile){
 	var how_much = 0;
-	console.log('parseNumber(', ile, ")");
 	if(isNaN(parseInt(ile))){
-		console.log('input is not an integer, trying to match with a string pattern')
 		var error = false;
 		switch(ile){
 			case "jeden":
@@ -288,7 +310,6 @@ function parseNumber(ile){
 		}
 		return how_much;		
 	}else{
-		console.log('input is an integer. returning parseInt(input)', parseInt(ile));
 		return parseInt(ile);
 	}
 }
@@ -299,22 +320,16 @@ scheme_collection = new function(){
     	var listen = dialog_controller.listen;
     	input = input.toLowerCase();
     	//input+=" ";
-    	//console.log("user_input:" + input);
-    	//console.log(this.collection);
-    	console.log('looking for a match...');
     	var found = false;
         for(var i in this.collection){
             var scheme = this.collection[i];
-            console.log(scheme.regex);
             if(scheme.matches(input)){
             	found = true;
-            	console.log('found match: ', scheme);
                 scheme.execute(input);
                 break;
             }
         }
         if(!found){
-        	console.log('none found');
         	dialog.didnt_understand();
         	//dialog.say('Wybacz, nie rozumiem polecenia. Spróbuj jeszcze raz:')
         	dialog_controller.listen();
@@ -397,7 +412,6 @@ dialog = new function(){
 		var container = $(selector);
 		for(var i in this.history){
 			var entry = this.history[i];
-			console.log(entry);
 			var div = $("<tr></tr>");
 			//div.addClass('dialog_entry');
 			var name = $("<td style='font-weight:bold; vertical-align:top; text-align:right'></td>");
@@ -410,7 +424,6 @@ dialog = new function(){
 			content.html(entry.text);
 			div.appendTo(container);
 		}
-		//console.log(container.parent())
 		container.parent()[0].scrollTop = container.parent()[0].scrollHeight;
 	}
 };
@@ -492,6 +505,13 @@ var basket = new function(){
 
 	this.reportState = function(){
 		var to_say = "W koszyku mam " + this.memes.length;
+		if(this.memes.length>=1){
+			to_say+=" mem";
+		}else if(this.memes.length<5 ){
+			to_say+=" memy"
+		}else{
+			to_say+="memów";
+		}
 		if(this.memes.length==0){
 			to_say+=".";
 		}else{

@@ -58,13 +58,19 @@ MapModel.isObstacle = function(x,y){
 		response.type = 'object';
 		response.reason = this.objectMap[x][y][0];
 	}
+	console.log(response);
+	if(response.reason!=null){
+		console.log(response.reason);
+		console.log(response.reason.indexOf("meme")==0);		
+	}
+	if(response.type=="object" && response.reason.indexOf("meme")==0){
+		console.log()
+		response.obstacle = false;
+	}
 	return response;
-	//console.log(floor, objects);
 }
 
 function objectFromString (string){
-	//console.log('objectFromString for', string);
-	//console.log(controller);
 	var ret;
 	switch(string){
 		case "luigi":
@@ -83,7 +89,6 @@ function objectFromString (string){
 	if(string=="router"){
 		return object_storage.objects.router[0];
 	}
-	console.log('returning', ret);
 	return ret;
 }
 
@@ -92,7 +97,6 @@ MapModel.getObjects = function(center_x, center_y, radius){
 	for(var i=center_x-radius; i<=center_x+radius; i++){
 		for(var j=center_y-radius; j<=center_y+radius; j++){
 			if(j<=map_size && i<=map_size && i>0 && j>0){
-				console.log(i,j);
 				var objects = this.objectMap[i][j];
 				for(var k in objects){
 					objects_total.push(objectFromString(objects[k]));
@@ -101,10 +105,7 @@ MapModel.getObjects = function(center_x, center_y, radius){
 		}
 	}
 	var summary = {};
-	//console.log(objects_total);
 	for(var i in objects_total){
-		//console.log(objects_total[i]);
-		//console.log(type);
 		var type = objects_total[i].type;
 		if(summary[type]==undefined){
 			summary[type]=1;
@@ -136,15 +137,11 @@ var CameraModel = new function(){
 		var dif_x = hero_position.x-this.position.x;
 		var dif_y = hero_position.y-(this.position.y-y_offset);
 		if(Math.abs(dif_x)>padding){
-			console.log('dif_x:', dif_x);
 			var to_move_x = (dif_x/Math.abs(dif_x))*Math.abs(Math.abs(dif_x)-padding);
-			console.log('to_move_x:', to_move_x);
 			this.position.x+=to_move_x;
 		}
 		if(Math.abs(dif_y)>padding){
-			console.log('dif_y:', dif_y);
 			var to_move_y = (dif_y/Math.abs(dif_y))*Math.abs(Math.abs(dif_y)-padding);
-			console.log('to_move_y:', to_move_y);
 			this.position.y+=to_move_y;
 		}
 	}
@@ -153,7 +150,6 @@ var CameraModel = new function(){
 /*$(document).ready(function(){
 	$(document).keydown(function(e){
 		var c = e.keyCode;
-		//console.log(e);
 		switch(c){
 			case 38:
 				if(e.shiftKey){
@@ -176,7 +172,6 @@ var CameraModel = new function(){
 				CameraModel.position.x-=1;
 				break;
 		}
-		//console.log(CameraModel.position.x, CameraModel.position.y);
 	});
 	//alert('keypress added');
 });
