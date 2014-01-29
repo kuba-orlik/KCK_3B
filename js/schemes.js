@@ -1,6 +1,8 @@
 var verbs = {
 	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z)|podejd(z|ź|))",
-    find: "(szukaj|znajd(z|ź))"
+    find: "(szukaj|znajd(z|ź))",
+    'throw': "(wrzuć|wyrzuć|wyjmij|przenie(s|ś)|włóż|wloz)",
+    grab: '(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz|włóż|z(ł|l)ap)'
 }
 
 var nouns = {
@@ -15,7 +17,7 @@ $(document).ready(function(){
             controller.main_hero.goToRouter();
         }),
 
-        new scheme("(wrzuć|wyrzuć|wyjmij|przenie(s|ś)|włóż|wloz) memy (z koszyka)? do (internetu|routera)", function(){
+        new scheme(verbs.throw + " memy (z koszyka)? do (internetu|routera)", function(){
             controller.main_hero.dumpMemes();
         }),
 
@@ -154,7 +156,12 @@ $(document).ready(function(){
             controller.main_hero.findClosestMeme();
         }),
 
-        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz|włóż|z(ł|l)ap) (mem(a)?)? #meme (do koszyka)?", function(meme_name){
+        new scheme(verbs.grab + " (mem|mema|memy) (do koszyka)?", function(meme_name){
+            say('Ok, ale jakiego mema?');
+            dialog_controller.listen();
+        }),
+
+        new scheme(verbs.grab + " (mem(a)?)? #meme (do koszyka)?", function(meme_name){
             controller.main_hero.takeMeme(meme_name);
             dialog_controller.listen();
         }),
