@@ -161,7 +161,7 @@ $(document).ready(function(){
             dialog_controller.listen();
         }),
 
-        new scheme(verbs.grab + " (mem(a)?)? #meme (do koszyka)?", function(meme_name){
+        new scheme(verbs.grab + " (mema|mem)? #meme (do koszyka)?", function(meme_name){
             controller.main_hero.takeMeme(meme_name);
             dialog_controller.listen();
         }),

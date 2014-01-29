@@ -252,6 +252,9 @@ function parseDirection(kierunek){
 		case "tyłu":
 			coord_y=-1;
 			break;
+		case "tył":
+			coord_y=-1;
+			break;
 		case "południe":
 			coord_y=-1;
 			break;
