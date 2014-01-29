@@ -11,11 +11,11 @@ $(document).ready(function(){
     scheme_collection.collection = [
         
 
-        new scheme(verbs.go + " do routera", function(){
+        new scheme(verbs.go + " do (najbli(ż|z)szego)? routera", function(){
             controller.main_hero.goToRouter();
         }),
 
-        new scheme("(wrzuć|wyrzuć|wyjmij|przenieś) memy (z koszyka)? do (internetu|routera)", function(){
+        new scheme("(wrzuć|wyrzuć|wyjmij|przenie(s|ś)|włóż|wloz) memy (z koszyka)? do (internetu|routera)", function(){
             controller.main_hero.dumpMemes();
         }),
 
@@ -37,7 +37,7 @@ $(document).ready(function(){
         }),
 
 
-        new scheme(verbs.go + " do mema #meme", function(meme_name){
+        new scheme(verbs.go + " do (mema)? #meme", function(meme_name){
             controller.main_hero.gotoMemeIfVisible(meme_name);
         }),
 
@@ -100,7 +100,7 @@ $(document).ready(function(){
 				controller.main_hero.translate(coords.x, coords.y);
 				}
 		}),
-        new scheme("dance for me", function(){
+        new scheme("((za)?ta(ń|n)cz|dance for me)", function(){
             say("ok, you got it, babe");
             window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
         }),
@@ -154,15 +154,7 @@ $(document).ready(function(){
             controller.main_hero.findClosestMeme();
         }),
 
-        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz)", function(){
-            // funkcja podnieś mema(mem) - podnosi mem o takiej nazwie, jeśli stoisz razem z nim na polu, ew. zaimplementować, że może być na polu obok
-        }),
-
-        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) mem(a)?", function(){
-            // funkcja ponieś mema() - podnosi mem, który znajduje się na tym samym polu co Luigi
-        }),
-
-        new scheme("we(ź|z) mem(a)? #meme do koszyka", function(meme_name){
+        new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz|włóż|z(ł|l)ap) (mem(a)?)? #meme (do koszyka)?", function(meme_name){
             controller.main_hero.takeMeme(meme_name);
             dialog_controller.listen();
         }),
