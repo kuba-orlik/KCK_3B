@@ -486,3 +486,39 @@ $(document).ready(function(){
 	})
 });
 
+
+var basket = new function(){
+	this.memes = [];
+
+	this.reportState = function(){
+		var to_say = "W koszyku mam " + this.memes.length;
+		if(this.memes.length==0){
+			to_say+=".";
+		}else{
+			to_say+=":";
+		}
+		say(to_say);
+		for(var i in this.memes){
+			say(this.memes[i].acceptable_names[0]);
+		}	
+	}
+
+
+	this.insertMeme = function(meme){
+		for(var i in this.memes){
+			var already = false;
+			if(meme.machine_name==this.memes[i].machine_name){
+				already = true;
+				break;
+			}
+		}
+		if(!already){
+			this.memes.push(meme);
+			meme.in_basket = true;
+			say("Ok, wrzuciłem mema " + meme.acceptable_names[0] + " do koszyka.");
+		}else{
+			say("Mem " + meme.acceptable_names[0] + "już jest w koszyku.");
+		}
+		this.reportState();
+	}
+}

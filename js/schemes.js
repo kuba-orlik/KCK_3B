@@ -20,6 +20,11 @@ $(document).ready(function(){
             }
         }),
 
+        new scheme(verbs.go, function(){
+            say("Dobrze, ale gdzie mam iść?");
+            dialog_controller.listen();
+        }),
+
         new scheme(verbs.go + " do mema #meme", function(meme_name){
             controller.main_hero.gotoMemeIfVisible(meme_name);
         }),
@@ -143,10 +148,11 @@ $(document).ready(function(){
 
         new scheme("(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz) mem(a)?", function(){
             // funkcja ponieś mema() - podnosi mem, który znajduje się na tym samym polu co Luigi
+        }),
+
+        new scheme("we(ź|z) mema #meme do koszyka", function(meme_name){
+            controller.main_hero.takeMeme(meme_name);
+            dialog_controller.listen();
         })
-
-       
-
-
     ];    
 });

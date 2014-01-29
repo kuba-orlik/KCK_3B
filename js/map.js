@@ -326,6 +326,11 @@ MapObject.prototype.update = function(){
             this.material.opacity = 1;
         }
     }
+    if(this.type=="meme"){
+        if(this.in_basket){
+            this.material.opacity = 0;
+        }
+    }
 }
 
 MapObject.prototype.setPos = function(x, y){
@@ -577,6 +582,21 @@ MapObject.prototype.gotoMemeIfVisible = function(meme_name){
 
 MapObject.prototype.goStraightTo = function(x, y){
     this.translate_steps(x-this.mesh.position.x, y-this.mesh.position.y, false);
+}
+
+MapObject.prototype.takeMeme = function(meme_name){
+    var meme = controller.getMemeByName(meme_name);
+    if(meme==null){
+        say("Nie wiem, co to za mem " + meme_name);
+    }else{
+        var distance = this.howFarIs(meme.x, meme.y);
+        if(distance>2){
+            say("Nie sięgam! Muszę podejść bliżej.");
+            dialog_controller.listen();
+        }else{
+            basket.insertMeme(meme);
+        }
+    }
 }
 
 Router = function(){
