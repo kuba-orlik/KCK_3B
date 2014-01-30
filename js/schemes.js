@@ -1,12 +1,12 @@
 var verbs = {
-	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z)|podejd(z|ź|))",
+    go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z)|podejd(z|ź|)|biegnij|pobiegnij)",
     find: "(szukaj|znajd(z|ź))",
     'throw': "(wrzuć|wrzuc|wyrzuc|wyrzuć|wyjmij|przenie(s|ś)|włóż|wloz)",
     grab: '(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz|włóż|z(ł|l)ap)'
 }
 
 var nouns = {
-	steps : "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kwadratów|kwadratow|kratki|kratk(e|ę))"
+    steps : "(pol(a|e)|p(o|ó)l|kroki|krok|krok(ó|o)w|kwadraty|kwadrat|kwadratów|kwadratow|kratki|kratk(e|ę))"
 }
 
 $(document).ready(function(){
@@ -31,6 +31,12 @@ $(document).ready(function(){
             }
         }),
 
+        new scheme("gdzie jest router(\?)?", function(){
+            var router = object_storage.objects.router[0];
+            var router_position = router.mesh.position;
+            controller.main_hero.reportRelativeDirection(router_position.x, router_position.y, "router");
+            dialog_controller.listen();
+        }),
 
 
         new scheme(verbs.go, function(){
@@ -61,7 +67,7 @@ $(document).ready(function(){
         new scheme(verbs.go + " (o)? (pol(e|ę)|kwadrat|kratk(ę|e)|krok) (w|do|na)? #kierunek", function(kierunek){
             controller.main_hero.parseTranslate('jeden', kierunek);
         }),
-		new scheme(verbs.go + " (o)? #ile " + nouns.steps + "? (w|do|na)? #kierunek", function(ile, kierunek){
+        new scheme(verbs.go + " (o)? #ile " + nouns.steps + "? (w|do|na)? #kierunek", function(ile, kierunek){
             controller.main_hero.parseTranslate(ile, kierunek);
         }),
         new scheme("gdzie jeste(s|ś)?", function(){
@@ -92,16 +98,16 @@ $(document).ready(function(){
             controller.main_hero.parseTranslate(ilex, kierunekx);
             controller.main_hero.parseTranslate(iley, kieruneky);
         }),
-		new scheme("(skacz|przeskocz|skocz) (w|do|na)? #kierunek", function(kierunek){
+        new scheme("(skacz|przeskocz|skocz) (w|do|na)? #kierunek", function(kierunek){
             var coords = parseDirection(kierunek);
             if(coords!=null){
                 if(coords.y < 0) coords. y = coords.y - 1;
-				else if (coords.y > 0) coords.y = coords.y + 1;
+                else if (coords.y > 0) coords.y = coords.y + 1;
                 if (coords.x < 0) coords.x = coords.x - 1;
-				else if (coords.x > 0) coords.x = coords.x + 1;
-				controller.main_hero.translate(coords.x, coords.y);
-				}
-		}),
+                else if (coords.x > 0) coords.x = coords.x + 1;
+                controller.main_hero.translate(coords.x, coords.y);
+                }
+        }),
         new scheme("((za)?ta(ń|n)cz|dance for me)", function(){
             say("ok, you got it, babe");
             window.parent.location="http://www.youtube.com/watch?v=dQw4w9WgXcQ";
@@ -137,14 +143,8 @@ $(document).ready(function(){
         }),
 
 
-        new scheme("gdzie jest router", function(){
-            var router = object_storage.objects.router[0];
-            var router_position = router.mesh.position;
-            controller.main_hero.reportRelativeDirection(router_position.x, router_position.y, "router");
-            dialog_controller.listen();
-        }),
 
-        new scheme("gdzie jest (mem)? #mem\?", function(meme_name){
+        new scheme("gdzie jest (mem)? #mem(\?)?", function(meme_name){
             var meme = controller.getMemeByName(meme_name);
             if(meme!=null){
                 say(meme.acceptable_names[0] + " jest w polu " + meme.x + ", " + meme.y);
@@ -152,7 +152,7 @@ $(document).ready(function(){
             }
         }),
 
-        new scheme("(gdzie|jaki|który) jest najbliższy mem?", function(){
+        new scheme("(gdzie|jaki|który) jest najbli(ż|z)szy mem(\?)?", function(){
             controller.main_hero.findClosestMeme();
         }),
 
