@@ -1,7 +1,7 @@
 var verbs = {
 	go: "(id(z|ź)|przesu(n|ń) si(ę|e)|p(ó|o)jd(z|ź)|przejd(ź|z)|podejd(z|ź|))",
     find: "(szukaj|znajd(z|ź))",
-    'throw': "(wrzuć|wyrzuć|wyjmij|przenie(s|ś)|włóż|wloz)",
+    'throw': "(wrzuć|wrzuc|wyrzuc|wyrzuć|wyjmij|przenie(s|ś)|włóż|wloz)",
     grab: '(podnie(ś|s)|we(ź|z)|unie(ś|s)|zabierz|włóż|z(ł|l)ap)'
 }
 
