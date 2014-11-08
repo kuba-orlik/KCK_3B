@@ -108,7 +108,7 @@
 				change_callback($(this).val());
 			});	
 			$(document).on("keypress", "#begin_input", function(e){
-				if(e.charCode==13 && $(this).val()=="start"){
+				if((e.charCode==13 || e.keyCode==13) && $(this).val()=="start"){
 					start();
 				}
 			});	
